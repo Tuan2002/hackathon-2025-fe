@@ -15,6 +15,9 @@ import MainLayout from '@/layouts/MainLayout';
 import AboutPage from '@/pages/home/about-page';
 import NewsPage from '@/pages/news/news-page';
 import DocumentCategoryPage from '@/pages/document/document-category-page';
+import ChangePasswordPage from '@/pages/account/change-password-page';
+import SetupPage from '@/pages/account/setup-page';
+import ProfilePage from '@/pages/account/profile-page';
 
 const AppRoute = () => {
   return (
@@ -29,7 +32,12 @@ const AppRoute = () => {
             </Route>
           </Route>
 
-          <Route element={<MainLayout />}>{/* Add private user route  */}</Route>
+          <Route element={<MainLayout />}>
+            {/* Add private user route  */}
+            <Route path={RoutePaths.AccountProfile} element={<ProfilePage />} />
+            <Route path={RoutePaths.AccountSettings} element={<SetupPage />} />
+            <Route path={RoutePaths.AccountChangePassword} element={<ChangePasswordPage />} />
+          </Route>
         </Route>
         <Route element={<MainLayout />}>
           {/* Add public route */}

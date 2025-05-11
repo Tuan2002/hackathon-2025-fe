@@ -14,6 +14,7 @@ export const USER_MENU_ITEMS: MenuItem[] = [
     id: '1',
     title: 'Trang cá nhân',
     icon: BiSolidUser,
+    path: RoutePaths.AccountProfile,
   },
   {
     id: '2',
@@ -24,11 +25,13 @@ export const USER_MENU_ITEMS: MenuItem[] = [
     id: '3',
     title: 'Cài đặt',
     icon: BiSolidUser,
+    path: RoutePaths.AccountSettings,
   },
   {
     id: '4',
     title: 'Đổi mật khẩu',
     icon: BiSolidUser,
+    path: RoutePaths.AccountChangePassword,
   },
 ];
 

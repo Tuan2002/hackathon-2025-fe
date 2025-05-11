@@ -1,8 +1,21 @@
 import { Outlet } from 'react-router-dom';
 import MainHeader from '../components/MainHeader';
 import MainFooter from '../components/MainFooter';
+import { useMemo } from 'react';
+import RoutePaths from '@/routes/routePaths';
+
+const hiddenMainFooterRoutes = [
+  RoutePaths.AccountProfile,
+  RoutePaths.AccountSettings,
+  RoutePaths.AccountChangePassword,
+];
 
 const MainLayout = () => {
+  const isHiddenMainFooter = useMemo(() => {
+    return hiddenMainFooterRoutes.includes(
+      window.location.pathname as (typeof hiddenMainFooterRoutes)[number],
+    );
+  }, []);
   return (
     <div className='flex flex-col h-screen'>
       <MainHeader />
@@ -10,7 +23,7 @@ const MainLayout = () => {
         <div>
           <Outlet />
         </div>
-        <MainFooter />
+        {!isHiddenMainFooter && <MainFooter />}
       </div>
     </div>
   );

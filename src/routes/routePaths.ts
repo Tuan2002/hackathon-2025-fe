@@ -2,7 +2,6 @@ const RoutePaths = {
   Home: '/',
   About: '/about',
   Contact: '/contact',
-  Profile: '/profile',
   Settings: '/settings',
   NotFound: '*',
   Document: '/document',
@@ -13,6 +12,11 @@ const RoutePaths = {
   Signup: '/signup',
   ForgotPassword: '/forgot-password',
   ResetPassword: '/reset-password',
+
+  // Account Routes
+  AccountProfile: '/account/profile',
+  AccountSettings: '/account/settings',
+  AccountChangePassword: '/account/change-password',
 
   // Admin Routes
   AdminDashboard: '/admin/dashboard',
