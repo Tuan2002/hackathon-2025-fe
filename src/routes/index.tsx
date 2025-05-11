@@ -13,8 +13,8 @@ import ForgotPasswordPage from '@/pages/auth/forgot-password';
 import ResetPasswordPage from '@/pages/auth/reset-password';
 import MainLayout from '@/layouts/MainLayout';
 import AboutPage from '@/pages/home/about-page';
-import LibraryPage from '@/pages/library/library-page';
 import NewsPage from '@/pages/news/news-page';
+import DocumentCategoryPage from '@/pages/document/document-category-page';
 
 const AppRoute = () => {
   return (
@@ -35,7 +35,7 @@ const AppRoute = () => {
           {/* Add public route */}
           <Route path={RoutePaths.Home} element={<HomePage />} />
           <Route path={RoutePaths.About} element={<AboutPage />} />
-          <Route path={RoutePaths.Library} element={<LibraryPage />} />
+          <Route path={RoutePaths.Document} element={<DocumentCategoryPage />} />
           <Route path={RoutePaths.News} element={<NewsPage />} />
         </Route>
 

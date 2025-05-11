@@ -5,7 +5,7 @@ const RoutePaths = {
   Profile: '/profile',
   Settings: '/settings',
   NotFound: '*',
-  Library: '/library',
+  Document: '/document',
   News: '/news',
 
   // Auth Routes

@@ -64,7 +64,7 @@ export const NAVBAR_MENU_ITEMS: MenuItem[] = [
     id: '3',
     title: 'Thư viện điện tử',
     icon: BiSolidUser,
-    path: RoutePaths.Library,
+    path: RoutePaths.Document,
   },
   {
     id: '4',
