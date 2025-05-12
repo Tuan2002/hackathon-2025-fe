@@ -48,6 +48,31 @@ export const ADMIN_MENU_ITEMS: MenuItem[] = [
     icon: BiSolidUser,
     path: RoutePaths.ManageUser,
   },
+  {
+    id: '3',
+    title: 'Quản lý danh mục',
+    icon: BiSolidUser,
+  },
+  {
+    id: '4',
+    title: 'Quản lý tài liệu',
+    icon: BiSolidUser,
+  },
+  {
+    id: '5',
+    title: 'Quản lý tin tức',
+    icon: BiSolidUser,
+  },
+  {
+    id: '6',
+    title: 'Quản lý phản hồi',
+    icon: BiSolidUser,
+  },
+  {
+    id: '7',
+    title: 'Quản lý giao dịch',
+    icon: BiSolidUser,
+  },
 ];
 
 export const NAVBAR_MENU_ITEMS: MenuItem[] = [

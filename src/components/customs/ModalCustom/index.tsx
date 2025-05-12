@@ -1,0 +1,90 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import type { ReactNode } from 'react';
+
+interface ModalCustomProps {
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  children?: ReactNode;
+  footer?: ReactNode;
+  showFooter?: boolean;
+  showHeader?: boolean;
+  isFullHeight?: boolean;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
+}
+
+const ModalCustom = ({
+  open,
+  onClose,
+  title,
+  children,
+  footer,
+  size = 'md',
+  showFooter = true,
+  showHeader = true,
+  isFullHeight = true,
+}: ModalCustomProps) => {
+  const sizeClass = {
+    sm: 'max-w-sm',
+    md: 'max-w-md',
+    lg: 'max-w-lg',
+    xl: 'max-w-xl',
+    '2xl': 'max-w-2xl',
+    '3xl': 'max-w-3xl',
+    '4xl': 'max-w-4xl',
+    '5xl': 'max-w-5xl',
+  }[size];
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent
+        hideCloseButton
+        className={`${sizeClass} rounded-xl p-0 overflow-hidden border bg-white shadow-xl gap-2`}
+      >
+        {showHeader && (
+          <DialogHeader className='p-2 border-b bg-gray-100'>
+            <DialogTitle className='text-lg font-semibold'>{title}</DialogTitle>
+          </DialogHeader>
+        )}
+
+        <div
+          className={`p-2 ${isFullHeight ? 'max-h-[calc(100vh-200px)] overflow-y-auto' : ''} 
+            [&::-webkit-scrollbar]:w-1 
+            [&::-webkit-scrollbar-thumb]:bg-gray-400 
+            [&::-webkit-scrollbar-thumb]:rounded-full 
+            [&::-webkit-scrollbar-track]:bg-gray-200`}
+        >
+          {children}
+        </div>
+
+        {showFooter && (
+          <DialogFooter className='flex justify-end gap-3 border-t p-2 bg-gray-50'>
+            {footer ? (
+              footer
+            ) : (
+              <>
+                <Button variant='outline' className='w-28' onClick={onClose}>
+                  Huỷ
+                </Button>
+                <Button className='w-28' onClick={onClose}>
+                  Xác nhận
+                </Button>
+              </>
+            )}
+          </DialogFooter>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default ModalCustom;
