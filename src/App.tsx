@@ -1,12 +1,13 @@
 import { ToastContainer } from 'react-toastify';
 import './App.css';
 import AppRoute from './routes';
+import FirstUpdateProfile from './features/account/FirstUpdateProfile';
 
 function App() {
   return (
     <>
       <AppRoute />
-      {/* <FirstUpdateProfile /> */}
+      <FirstUpdateProfile />
       <ToastContainer
         position='bottom-left'
         autoClose={5000}

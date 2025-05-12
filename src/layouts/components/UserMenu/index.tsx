@@ -11,7 +11,9 @@ import {
 import { BiLogOut } from 'react-icons/bi';
 import { USER_MENU_ITEMS } from '@/constants/menuItems';
 import { useNavigate } from 'react-router-dom';
+import useAccountStore from '@/stores/accountStore';
 const UserMenu = () => {
+  const { currentUser } = useAccountStore();
   const navigate = useNavigate();
   const handleLogout = () => {
     // Handle logout logic here
@@ -26,7 +28,7 @@ const UserMenu = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild className='cursor-pointer'>
         <Avatar>
-          <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
+          <AvatarImage src={currentUser?.avatar ?? 'https://github.com/shadcn.png'} alt='@shadcn' />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -35,13 +37,18 @@ const UserMenu = () => {
           <div className='h-16 flex items-center'>
             <div>
               <Avatar>
-                <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
+                <AvatarImage
+                  src={currentUser?.avatar ?? 'https://github.com/shadcn.png'}
+                  alt='@shadcn'
+                />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </div>
             <div className='ml-2'>
-              <p>Nguyen Ta Quyen</p>
-              <span className='font-thin'>ta2k3quyen@gmail.com</span>
+              <p>
+                {currentUser?.firstName} {currentUser?.lastName}
+              </p>
+              <span className='font-thin'>{currentUser?.userName}</span>
             </div>
           </div>
         </DropdownMenuLabel>

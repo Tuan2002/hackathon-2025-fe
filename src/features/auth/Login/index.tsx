@@ -1,14 +1,74 @@
-import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { FcGoogle } from 'react-icons/fc';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import RoutePaths from '@/routes/routePaths';
+import type { ILoginRequestData } from '@/types/authType';
+import { useState } from 'react';
+import ButtonCustom from '@/components/customs/ButtonCustom';
+import authService from '@/services/authService';
+import { toast } from 'react-toastify';
+import accountService from '@/services/accountService';
+import useAccountStore from '@/stores/accountStore';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { setAccessToken, setCurrentUser } = useAccountStore();
+  const [loginData, setLoginData] = useState<ILoginRequestData>({
+    email: '',
+    password: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const checkData = () => {
+    const { email, password } = loginData;
+    if (!email || !password) {
+      return false;
+    }
+    if (password.length < 8) {
+      return false;
+    }
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      return false;
+    }
+    return true;
+  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!checkData()) {
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const response = await authService.login(loginData);
+      if (response.statusCode === 200 || response.statusCode === 201) {
+        // Handle successful login
+        localStorage.setItem('accessToken', response.data.accessToken);
+
+        const user = await accountService.getMe();
+        if (user.statusCode === 200 || user.statusCode === 201) {
+          toast.success('Đăng nhập thành công');
+          setAccessToken(response.data.accessToken);
+          setCurrentUser(user.data);
+          navigate(RoutePaths.Home);
+        }
+      }
+    } catch {
+      // Handle error
+      toast.error('Đăng nhập không thành công');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className='flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-950'>
       <Card className='w-full max-w-md shadow-lg'>
@@ -20,12 +80,26 @@ const Login = () => {
         <CardContent className='space-y-4'>
           <div className='space-y-2'>
             <Label htmlFor='email'>Email</Label>
-            <Input type='email' id='email' placeholder='nhapemail@gmail.com' />
+            <Input
+              type='email'
+              id='email'
+              value={loginData.email}
+              name='email'
+              onChange={(e) => handleInputChange(e)}
+              placeholder='nhapemail@gmail.com'
+            />
           </div>
 
           <div className='space-y-2'>
             <Label htmlFor='password'>Mật khẩu</Label>
-            <Input type='password' id='password' placeholder='********' />
+            <Input
+              type='password'
+              id='password'
+              value={loginData.password}
+              name='password'
+              onChange={(e) => handleInputChange(e)}
+              placeholder='********'
+            />
           </div>
 
           {/* Nhớ tài khoản + Quên mật khẩu */}
@@ -35,7 +109,9 @@ const Login = () => {
             </Link>
           </div>
 
-          <Button className='w-full'>Đăng nhập</Button>
+          <ButtonCustom isLoading={isLoading} onClick={handleSubmit} className='w-full'>
+            Đăng nhập
+          </ButtonCustom>
 
           <div className='flex items-center gap-2'>
             <Separator className='flex-1' />

@@ -9,6 +9,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import type { ReactNode } from 'react';
+import ButtonCustom from '../ButtonCustom';
 
 interface ModalCustomProps {
   open: boolean;
@@ -19,7 +20,9 @@ interface ModalCustomProps {
   showFooter?: boolean;
   showHeader?: boolean;
   isFullHeight?: boolean;
+  onConfirm?: () => void;
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
+  isConfirming?: boolean;
 }
 
 const ModalCustom = ({
@@ -31,7 +34,9 @@ const ModalCustom = ({
   size = 'md',
   showFooter = true,
   showHeader = true,
+  onConfirm,
   isFullHeight = true,
+  isConfirming = false,
 }: ModalCustomProps) => {
   const sizeClass = {
     sm: 'max-w-sm',
@@ -75,9 +80,9 @@ const ModalCustom = ({
                 <Button variant='outline' className='w-28' onClick={onClose}>
                   Huỷ
                 </Button>
-                <Button className='w-28' onClick={onClose}>
+                <ButtonCustom isLoading={isConfirming} className='w-28' onClick={onConfirm}>
                   Xác nhận
-                </Button>
+                </ButtonCustom>
               </>
             )}
           </DialogFooter>
