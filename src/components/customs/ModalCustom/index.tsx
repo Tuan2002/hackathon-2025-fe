@@ -53,26 +53,30 @@ const ModalCustom = ({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent
         hideCloseButton
-        className={`${sizeClass} rounded-xl p-0 overflow-hidden border bg-white shadow-xl gap-2`}
+        className={`${sizeClass} rounded-xl p-0 overflow-hidden border 
+        bg-white dark:bg-gray-500 dark:border-gray-700 
+        shadow-xl gap-2`}
       >
         {showHeader && (
-          <DialogHeader className='p-2 border-b bg-gray-100'>
-            <DialogTitle className='text-lg font-semibold'>{title}</DialogTitle>
+          <DialogHeader className='p-2 border-b bg-gray-100 dark:bg-gray-600 dark:border-gray-600'>
+            <DialogTitle className='text-lg font-semibold text-gray-900 dark:text-gray-100'>
+              {title}
+            </DialogTitle>
           </DialogHeader>
         )}
 
         <div
-          className={`p-2 ${isFullHeight ? 'max-h-[calc(100vh-200px)] overflow-y-auto' : ''} 
+          className={`p-2 ${isFullHeight ? 'max-h-[calc(100vh-200px)] overflow-y-auto' : ''}
             [&::-webkit-scrollbar]:w-1 
-            [&::-webkit-scrollbar-thumb]:bg-gray-400 
+            [&::-webkit-scrollbar-thumb]:bg-gray-400 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700
             [&::-webkit-scrollbar-thumb]:rounded-full 
-            [&::-webkit-scrollbar-track]:bg-gray-200`}
+            [&::-webkit-scrollbar-track]:bg-gray-200 dark:[&::-webkit-scrollbar-track]:bg-gray-600`}
         >
           {children}
         </div>
 
         {showFooter && (
-          <DialogFooter className='flex justify-end gap-3 border-t p-2 bg-gray-50'>
+          <DialogFooter className='flex justify-end gap-3 border-t p-2 bg-gray-50 dark:bg-gray-600 dark:border-gray-600'>
             {footer ? (
               footer
             ) : (

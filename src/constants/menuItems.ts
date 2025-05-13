@@ -1,6 +1,17 @@
 import RoutePaths from '@/routes/routePaths';
 import type { IconType } from 'react-icons';
-import { BiSolidUser } from 'react-icons/bi';
+import {
+  BiBorderInner,
+  BiBrain,
+  BiBuildingHouse,
+  BiCabinet,
+  BiKey,
+  BiSolidUser,
+  BiTransfer,
+  BiUser,
+  BiUserCircle,
+  BiWrench,
+} from 'react-icons/bi';
 
 interface MenuItem {
   id: string;
@@ -13,24 +24,24 @@ export const USER_MENU_ITEMS: MenuItem[] = [
   {
     id: '1',
     title: 'Trang cá nhân',
-    icon: BiSolidUser,
+    icon: BiUserCircle,
     path: RoutePaths.AccountProfile,
   },
   {
     id: '2',
     title: 'Lịch sử giao dịch',
-    icon: BiSolidUser,
+    icon: BiTransfer,
   },
   {
     id: '3',
     title: 'Cài đặt',
-    icon: BiSolidUser,
+    icon: BiWrench,
     path: RoutePaths.AccountSettings,
   },
   {
     id: '4',
     title: 'Đổi mật khẩu',
-    icon: BiSolidUser,
+    icon: BiKey,
     path: RoutePaths.AccountChangePassword,
   },
 ];
@@ -39,31 +50,31 @@ export const ADMIN_MENU_ITEMS: MenuItem[] = [
   {
     id: '1',
     title: 'Dashboard',
-    icon: BiSolidUser,
+    icon: BiBorderInner,
     path: RoutePaths.AdminDashboard,
   },
   {
     id: '2',
     title: 'Quản lý người dùng',
-    icon: BiSolidUser,
+    icon: BiUser,
     path: RoutePaths.ManageUser,
   },
   {
     id: '3',
     title: 'Quản lý danh mục',
-    icon: BiSolidUser,
+    icon: BiCabinet,
     path: RoutePaths.ManageCategory,
   },
   {
     id: '4',
     title: 'Quản lý nhà xuất bản',
-    icon: BiSolidUser,
+    icon: BiBuildingHouse,
     path: RoutePaths.ManagePublisher,
   },
   {
     id: '5',
     title: 'Quản lý tác giả',
-    icon: BiSolidUser,
+    icon: BiBrain,
     path: RoutePaths.ManageAuthor,
   },
   {

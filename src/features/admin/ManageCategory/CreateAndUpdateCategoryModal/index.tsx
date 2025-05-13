@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { Input } from '@/components/ui/input';
@@ -71,8 +72,8 @@ const CreateAndUpdateCategoryModal = ({
           toast.error('Tạo danh mục thất bại');
         }
       }
-    } catch {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại sau');
+    } catch (error: any) {
+      toast.error(error?.message ?? 'Có lỗi xảy ra, vui lòng thử lại sau');
     } finally {
       setIsLoading(false);
     }
