@@ -21,6 +21,9 @@ const RoutePaths = {
   // Admin Routes
   AdminDashboard: '/admin/dashboard',
   ManageUser: '/admin/manage-user',
+  ManageCategory: '/admin/manage-category',
+  ManagePublisher: '/admin/manage-publisher',
+  ManageAuthor: '/admin/manage-author',
 
   // User Routes
 } as const;

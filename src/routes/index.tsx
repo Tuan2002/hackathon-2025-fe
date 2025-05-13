@@ -18,6 +18,9 @@ import DocumentCategoryPage from '@/pages/document/document-category-page';
 import ChangePasswordPage from '@/pages/account/change-password-page';
 import SetupPage from '@/pages/account/setup-page';
 import ProfilePage from '@/pages/account/profile-page';
+import ManageCategoryPage from '@/pages/admin/manage-category/manage-category-page';
+import ManagePublisherPage from '@/pages/admin/manage-publisher/manage-publisher-page';
+import ManageAuthorPage from '@/pages/admin/manage-author/manage-author-page';
 
 const AppRoute = () => {
   return (
@@ -29,6 +32,9 @@ const AppRoute = () => {
               {/* Add admin route */}
               <Route path={RoutePaths.AdminDashboard} element={<AdminDashboardPage />} />
               <Route path={RoutePaths.ManageUser} element={<MangeUserPage />} />
+              <Route path={RoutePaths.ManageCategory} element={<ManageCategoryPage />} />
+              <Route path={RoutePaths.ManagePublisher} element={<ManagePublisherPage />} />
+              <Route path={RoutePaths.ManageAuthor} element={<ManageAuthorPage />} />
             </Route>
           </Route>
 

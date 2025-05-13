@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { BsColumnsGap } from 'react-icons/bs';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,12 +13,17 @@ import { BiLogOut } from 'react-icons/bi';
 import { USER_MENU_ITEMS } from '@/constants/menuItems';
 import { useNavigate } from 'react-router-dom';
 import useAccountStore from '@/stores/accountStore';
+import RoutePaths from '@/routes/routePaths';
+import { USER_ROLES } from '@/constants/userRoles';
 const UserMenu = () => {
-  const { currentUser } = useAccountStore();
+  const { currentUser, setCurrentUser, setAccessToken } = useAccountStore();
   const navigate = useNavigate();
   const handleLogout = () => {
     // Handle logout logic here
-    console.log('Logout clicked');
+    setCurrentUser(null); // Clear user data
+    setAccessToken(''); // Clear access token
+    localStorage.removeItem('accessToken'); // Remove access token from local storage
+    navigate(RoutePaths.Login); // Redirect to login page after logout
   };
   const handleClickMenuItem = (href: string) => {
     // Handle menu item click logic here
@@ -54,6 +60,15 @@ const UserMenu = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          {currentUser?.role === USER_ROLES.ADMIN && (
+            <DropdownMenuItem
+              className='cursor-pointer'
+              onClick={() => handleClickMenuItem(RoutePaths.AdminDashboard)}
+            >
+              <BsColumnsGap className='mr-2' />
+              Trang quản trị
+            </DropdownMenuItem>
+          )}
           {USER_MENU_ITEMS.map((item) => (
             <DropdownMenuItem
               className='cursor-pointer'

@@ -5,6 +5,6 @@ import RoutePaths from './routePaths';
 
 const AuthRoute = (): JSX.Element => {
   const accessToken = getAccessToken();
-  return accessToken ? <Outlet /> : <Navigate to={RoutePaths.Home} />;
+  return !accessToken ? <Outlet /> : <Navigate to={RoutePaths.Home} />;
 };
 export default AuthRoute;

@@ -52,16 +52,19 @@ export const ADMIN_MENU_ITEMS: MenuItem[] = [
     id: '3',
     title: 'Quản lý danh mục',
     icon: BiSolidUser,
+    path: RoutePaths.ManageCategory,
   },
   {
     id: '4',
-    title: 'Quản lý tài liệu',
+    title: 'Quản lý nhà xuất bản',
     icon: BiSolidUser,
+    path: RoutePaths.ManagePublisher,
   },
   {
     id: '5',
-    title: 'Quản lý tin tức',
+    title: 'Quản lý tác giả',
     icon: BiSolidUser,
+    path: RoutePaths.ManageAuthor,
   },
   {
     id: '6',
