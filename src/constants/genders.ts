@@ -4,6 +4,12 @@ export const GENDERS = {
   OTHER: 2,
 };
 
+export const GENDERS_LABELS = {
+  [GENDERS.FEMALE]: 'Nữ',
+  [GENDERS.MALE]: 'Nam',
+  [GENDERS.OTHER]: 'Khác',
+};
+
 export const genderList = [
   {
     value: GENDERS.FEMALE,

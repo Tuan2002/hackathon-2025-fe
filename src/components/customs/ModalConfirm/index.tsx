@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { AlertTriangle, Lock, Trash2, CheckCircle } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import ButtonCustom from '../ButtonCustom';
 
 interface ModalConfirmProps {
   open: boolean;
@@ -13,6 +14,7 @@ interface ModalConfirmProps {
   title: string;
   description: string;
   type?: 'delete' | 'lock' | 'confirm' | 'warning';
+  isConfirming?: boolean;
 }
 
 const iconMap: Record<string, ReactNode> = {
@@ -29,6 +31,7 @@ const ModalConfirm = ({
   title,
   description,
   type = 'confirm',
+  isConfirming,
 }: ModalConfirmProps) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -55,7 +58,8 @@ const ModalConfirm = ({
           <Button variant='outline' className='w-28' onClick={onClose}>
             Huỷ
           </Button>
-          <Button
+          <ButtonCustom
+            isLoading={isConfirming}
             className={cn(
               'w-28',
               type === 'delete' && 'bg-red-500 hover:bg-red-600',
@@ -66,7 +70,7 @@ const ModalConfirm = ({
             onClick={onConfirm}
           >
             Xác nhận
-          </Button>
+          </ButtonCustom>
         </div>
       </DialogContent>
     </Dialog>

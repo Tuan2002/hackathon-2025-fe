@@ -20,7 +20,7 @@ function About() {
             className='object-cover w-full h-full'
           />
           <div className='absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center px-4'>
-            <h1 className='text-3xl md:text-4xl font-bold text-white mb-2'>Thư viện Điện tử</h1>
+            <h1 className='text-3xl md:text-4xl font-bold text-white mb-2'>Thư viện điện tử</h1>
             <p className='text-gray-200 text-sm md:text-base max-w-xl'>
               Nơi chia sẻ tài liệu, đề thi và học liệu trực tuyến cho sinh viên & giảng viên.
             </p>
@@ -32,7 +32,7 @@ function About() {
           <div>
             <HeaderBox title='Tầm nhìn và sứ mệnh' />
             <p className='text-gray-600 dark:text-gray-300 leading-relaxed text-center'>
-              Thư viện Điện tử được xây dựng với mục tiêu tạo ra không gian chia sẻ tri thức hiện
+              Thư viện điện tử được xây dựng với mục tiêu tạo ra không gian chia sẻ tri thức hiện
               đại, kết nối cộng đồng học thuật và sinh viên trên cả nước. Chúng tôi hướng đến việc
               số hóa nguồn tài liệu, đề thi chất lượng cao và xây dựng nền tảng tra cứu tối ưu.
             </p>
@@ -97,7 +97,7 @@ function About() {
           <div>
             <HeaderBox title='Định hướng phát triển' />
             <p className='text-gray-600 dark:text-gray-300 leading-relaxed text-center'>
-              Trong tương lai, Thư viện Điện tử sẽ mở rộng kho tài liệu với nhiều lĩnh vực hơn, tích
+              Trong tương lai, Thư viện điện tử sẽ mở rộng kho tài liệu với nhiều lĩnh vực hơn, tích
               hợp công nghệ AI tra cứu thông minh, nâng cao trải nghiệm người dùng và phát triển
               cộng đồng học thuật trực tuyến ngày càng vững mạnh. Đồng thời, hệ thống sẽ tối ưu giao
               diện và tương thích nhiều thiết bị để phục vụ tốt nhất cho người dùng mọi lúc, mọi

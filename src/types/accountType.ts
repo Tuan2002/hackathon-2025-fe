@@ -9,6 +9,8 @@ export interface IUser {
   userName: string;
   role: EUserRole;
   isFirstLogin: true;
+  isLocked: boolean;
+  email: string;
   firstName: string;
   lastName: string;
   address: string;
@@ -16,6 +18,8 @@ export interface IUser {
   dob: string;
   gender: EGender;
   avatar: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IUpdateProfileRequest {
