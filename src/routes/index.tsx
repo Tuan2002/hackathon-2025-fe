@@ -21,6 +21,7 @@ import ProfilePage from '@/pages/account/profile-page';
 import ManageCategoryPage from '@/pages/admin/manage-category/manage-category-page';
 import ManagePublisherPage from '@/pages/admin/manage-publisher/manage-publisher-page';
 import ManageAuthorPage from '@/pages/admin/manage-author/manage-author-page';
+import ManageDocumentPage from '@/pages/admin/manage-document/manage-document-page';
 
 const AppRoute = () => {
   return (
@@ -35,6 +36,7 @@ const AppRoute = () => {
               <Route path={RoutePaths.ManageCategory} element={<ManageCategoryPage />} />
               <Route path={RoutePaths.ManagePublisher} element={<ManagePublisherPage />} />
               <Route path={RoutePaths.ManageAuthor} element={<ManageAuthorPage />} />
+              <Route path={RoutePaths.ManageDocument} element={<ManageDocumentPage />} />
             </Route>
           </Route>
 

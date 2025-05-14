@@ -79,8 +79,9 @@ export const ADMIN_MENU_ITEMS: MenuItem[] = [
   },
   {
     id: '6',
-    title: 'Quản lý phản hồi',
+    title: 'Quản lý tài liệu',
     icon: BiSolidUser,
+    path: RoutePaths.ManageDocument,
   },
   {
     id: '7',

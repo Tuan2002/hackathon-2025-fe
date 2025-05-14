@@ -24,6 +24,7 @@ const RoutePaths = {
   ManageCategory: '/admin/manage-category',
   ManagePublisher: '/admin/manage-publisher',
   ManageAuthor: '/admin/manage-author',
+  ManageDocument: '/admin/manage-document',
 
   // User Routes
 } as const;
