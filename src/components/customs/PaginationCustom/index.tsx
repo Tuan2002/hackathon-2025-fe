@@ -20,7 +20,7 @@ const PaginationCustom = ({
 
   useEffect(() => {
     onChangePage(currentPage, pageSize);
-  }, [currentPage, pageSize]);
+  }, [currentPage, onChangePage, pageSize]);
 
   const handlePrev = () => {
     if (currentPage > 1) setCurrentPage((prev) => prev - 1);

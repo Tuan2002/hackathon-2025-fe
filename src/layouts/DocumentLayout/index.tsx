@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import useCategoryStore from '@/stores/categoryStore';
 import { Link } from 'react-router-dom';
+import RoutePaths from '@/routes/routePaths';
 
 interface DocumentLayoutProps {
   children: React.ReactNode;
@@ -47,7 +48,7 @@ const DocumentLayout = ({ children }: DocumentLayoutProps) => {
               {listCategories.length > 0 ? (
                 <>
                   <Link
-                    to={`/document`}
+                    to={RoutePaths.Document}
                     className='block px-4 py-2 rounded-lg transition-colors duration-200 ease-in-out font-medium shadow-sm 
     bg-gray-100 dark:bg-gray-800 
     text-gray-700 dark:text-gray-300 
@@ -58,7 +59,7 @@ const DocumentLayout = ({ children }: DocumentLayoutProps) => {
                   </Link>
                   {listCategories.map((item) => (
                     <Link
-                      to={`/document/${item.slug}`}
+                      to={`${RoutePaths.CategoryDocuments.replace(':categorySlug', item.slug)}`}
                       key={item.id}
                       className='block px-4 py-2 rounded-lg transition-colors duration-200 ease-in-out font-medium shadow-sm 
     bg-gray-100 dark:bg-gray-800 

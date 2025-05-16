@@ -116,8 +116,9 @@ const CreateAndUpdateDocumentModal = ({
       if (documentFile) {
         const response = await DocumentService.uploadFile(documentFile);
         if (response && (response.statusCode === 200 || response.statusCode === 201)) {
+          console.log('Upload file thành công', response);
           documentData.fileKey = response.data?.key;
-          documentData.fileName = response.data?.originalName;
+          documentData.fileName = response.data?.originalname;
           documentData.fileType = response.data?.mimetype;
         } else {
           toast.error('Upload file thất bại');

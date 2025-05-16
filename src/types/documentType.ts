@@ -24,13 +24,16 @@ export interface IDocument {
   fileType: EFileTypes;
   categoryName: string;
   authorName: string;
+  categorySlug: string;
   publisherName: string;
   createdAt: string;
   updatedAt: string;
+  isFavorite: boolean;
+  favoriteCount: number;
 }
 
 export interface IUploadDocumentResponse {
-  originalName: string;
+  originalname: string;
   key: string;
   mimetype: EFileTypes;
   size: number;
@@ -73,4 +76,14 @@ export interface IDocumentFormData {
   fileKey: string;
   fileName: string;
   fileType: EFileTypes;
+}
+
+export interface IGetDownloadDocumentUrlResponse {
+  url: string;
+  expiresAt: string;
+}
+
+export interface IGenerateSummaryResponse {
+  content: string;
+  documentId: string;
 }

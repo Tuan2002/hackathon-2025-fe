@@ -3,6 +3,8 @@ import type { IAppResposeBase } from '@/types/baseType';
 import type {
   ICreateDocumentRequest,
   IDocument,
+  IGenerateSummaryResponse,
+  IGetDownloadDocumentUrlResponse,
   IUpdateDocumentRequest,
   IUploadDocumentResponse,
 } from '@/types/documentType';
@@ -163,6 +165,104 @@ const toggleActiveDocument = async (id: string): Promise<IAppResposeBase<IDocume
   }
 };
 
+const getDocumentPreview = async (id: string): Promise<string> => {
+  try {
+    const response: string = await http.get(`/v1/documents/get-document-preview/${id}`, {
+      responseType: 'blob',
+    });
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const getDownloadDocumentUrl = async (
+  id: string,
+): Promise<IAppResposeBase<IGetDownloadDocumentUrlResponse>> => {
+  try {
+    const response: IAppResposeBase<IGetDownloadDocumentUrlResponse> = await http.get(
+      `/v1/documents/get-download-url/${id}`,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const generateSummary = async (id: string): Promise<IAppResposeBase<IGenerateSummaryResponse>> => {
+  try {
+    const response: IAppResposeBase<IGenerateSummaryResponse> = await http.get(
+      `/v1/documents/generate-summary/${id}`,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+const getFavoriteDocuments = async (): Promise<IAppResposeBase<IDocument[]>> => {
+  try {
+    const response: IAppResposeBase<IDocument[]> = await http.get(
+      '/v1/documents/get-favorite-documents',
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const favoriteDocument = async (id: string): Promise<IAppResposeBase<IDocument>> => {
+  try {
+    const response: IAppResposeBase<IDocument> = await http.patch(
+      `/v1/documents/favorite-document/${id}`,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+const getDownloadedDocuments = async (): Promise<IAppResposeBase<IDocument[]>> => {
+  try {
+    const response: IAppResposeBase<IDocument[]> = await http.get(
+      '/v1/documents/downloaded-documents',
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+const getAllDownloadedDocuments = async (): Promise<IAppResposeBase<IDocument[]>> => {
+  try {
+    const response: IAppResposeBase<IDocument[]> = await http.get(
+      '/v1/documents/all-downloaded-documents',
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const getAuthDocuments = async (): Promise<IAppResposeBase<IDocument[]>> => {
+  try {
+    const response: IAppResposeBase<IDocument[]> = await http.get(
+      '/v1/documents/get-auth-documents',
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const getAuthDocumentBySlug = async (slug: string): Promise<IAppResposeBase<IDocument>> => {
+  try {
+    const response: IAppResposeBase<IDocument> = await http.get(
+      `/v1/documents/auth-get-by-slug/${slug}`,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
 const DocumentService = {
   uploadFile,
   getMyDocuments,
@@ -177,5 +277,14 @@ const DocumentService = {
   rejectDocument,
   toggleBlockDocument,
   toggleActiveDocument,
+  getDocumentPreview,
+  getDownloadDocumentUrl,
+  generateSummary,
+  getFavoriteDocuments,
+  favoriteDocument,
+  getDownloadedDocuments,
+  getAllDownloadedDocuments,
+  getAuthDocuments,
+  getAuthDocumentBySlug,
 };
 export default DocumentService;

@@ -28,6 +28,7 @@ import DownloadDocumentPage from '@/pages/my-document/download-document-page';
 import UploadDocumentPage from '@/pages/my-document/upload-document-page';
 import PendingDocumentPage from '@/pages/my-document/pending-document-page';
 import SaveDocumentPage from '@/pages/my-document/saved-document-page';
+import DocumentDetailPage from '@/pages/document/document-detail-page';
 
 const AppRoute = () => {
   return (
@@ -65,6 +66,7 @@ const AppRoute = () => {
           <Route path={RoutePaths.About} element={<AboutPage />} />
           <Route path={RoutePaths.Document} element={<DocumentCategoryPage />} />
           <Route path={RoutePaths.CategoryDocuments} element={<DocumentCategoryPage />} />
+          <Route path={RoutePaths.DocumentDetail} element={<DocumentDetailPage />} />
           <Route path={RoutePaths.News} element={<NewsPage />} />
         </Route>
 

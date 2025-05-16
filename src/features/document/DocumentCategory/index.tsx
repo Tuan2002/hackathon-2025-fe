@@ -7,6 +7,7 @@ import DocumentLayout from '@/layouts/DocumentLayout';
 import DocumentService from '@/services/documentService';
 import useCategoryStore from '@/stores/categoryStore';
 import useDocumentStore from '@/stores/documentStore';
+import getAccessToken from '@/utils/getAccessToken';
 import { FileX } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -17,6 +18,7 @@ const DocumentCategory = () => {
   const { currentCategory, setCurrentCategory, listCategories } = useCategoryStore();
   const { listDocuments, setListDocuments } = useDocumentStore();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const accessToken = getAccessToken();
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,7 +39,9 @@ const DocumentCategory = () => {
     const fetchDocuments = async () => {
       setIsLoading(true);
       try {
-        const response = await DocumentService.getPublicDocuments();
+        const response = accessToken
+          ? await DocumentService.getAuthDocuments()
+          : await DocumentService.getMyDocuments();
         if (response) {
           setListDocuments(response.data);
         } else {
@@ -46,11 +50,11 @@ const DocumentCategory = () => {
       } catch (error: any) {
         toast.error(error?.message || 'Có lỗi xảy ra trong quá trình tải tài liệu');
       } finally {
-        setIsLoading(false);
+        setTimeout(() => setIsLoading(false), 2000);
       }
     };
     fetchDocuments();
-  }, [categorySlug, currentCategory?.id, setListDocuments]);
+  }, [categorySlug, currentCategory?.id, setListDocuments, accessToken]);
 
   // Tính documents theo trang
   const paginatedDocuments = listDocuments.slice(

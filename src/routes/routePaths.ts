@@ -4,8 +4,9 @@ const RoutePaths = {
   Contact: '/contact',
   Settings: '/settings',
   NotFound: '*',
-  Document: '/document',
-  CategoryDocuments: '/document/:categorySlug',
+  Document: '/tai-lieu',
+  CategoryDocuments: '/tai-lieu/:categorySlug',
+  DocumentDetail: '/tai-lieu/:categorySlug/:documentSlug',
   News: '/news',
 
   // Auth Routes

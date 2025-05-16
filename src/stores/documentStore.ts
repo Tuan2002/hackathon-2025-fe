@@ -8,6 +8,7 @@ type DocumentState = {
   currentDocument: IDocument | null;
   openModalDeleteDocument: boolean;
   openModalShowDocumentDetail: boolean;
+  openModalShowSummaryDocument: boolean;
 
   // actions
   setListDocuments: (listDocuments: IDocument[]) => void;
@@ -18,6 +19,7 @@ type DocumentState = {
   setCurrentDocument: (currentDocument: IDocument | null) => void;
   setOpenModalDeleteDocument: (openModalDeleteDocument: boolean) => void;
   setOpenModalShowDocumentDetail: (openModalShowDocumentDetail: boolean) => void;
+  setOpenModalShowSummaryDocument: (openModalShowSummaryDocument: boolean) => void;
 };
 
 const useDocumentStore = create<DocumentState>((set) => ({
@@ -27,6 +29,7 @@ const useDocumentStore = create<DocumentState>((set) => ({
   currentDocument: null,
   openModalDeleteDocument: false,
   openModalShowDocumentDetail: false,
+  openModalShowSummaryDocument: false,
 
   // actions
   setListDocuments: (listDocuments: IDocument[]) => set(() => ({ listDocuments })),
@@ -54,6 +57,8 @@ const useDocumentStore = create<DocumentState>((set) => ({
     set(() => ({ openModalDeleteDocument })),
   setOpenModalShowDocumentDetail: (openModalShowDocumentDetail: boolean) =>
     set(() => ({ openModalShowDocumentDetail })),
+  setOpenModalShowSummaryDocument: (openModalShowSummaryDocument: boolean) =>
+    set(() => ({ openModalShowSummaryDocument })),
 }));
 
 export default useDocumentStore;
