@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { Label } from '@/components/ui/label';
@@ -6,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import ModalCustom from '@/components/customs/ModalCustom';
 import type { IDocument } from '@/types/documentType';
 import dayjs from 'dayjs';
-import { DOCUMENT_STATUS_LABELS, DOCUMENT_STATUSES } from '@/constants/documentStatuses';
+import { DOCUMENT_STATUS_LABELS } from '@/constants/documentStatuses';
 
 interface ShowDocumentDetailModalProps {
   open: boolean;

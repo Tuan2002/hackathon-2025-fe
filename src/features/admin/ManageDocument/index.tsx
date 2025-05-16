@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
 import CardScroll from '@/components/customs/CardScroll';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,10 +23,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import TableCustom from '@/components/customs/TableCustom';
 import ShowDocumentDetailModal from './ShowDocumentDetailModal';
+import ModalConfirm from '@/components/customs/ModalConfirm';
+import { toast } from 'react-toastify';
 
 const ManageDocument = () => {
   const [search, setSearch] = useState('');
-
+  const [isLoading, setIsLoading] = useState(false);
   const {
     listDocuments,
     currentDocument,
@@ -33,6 +37,9 @@ const ManageDocument = () => {
     setOpenModalShowDocumentDetail,
     setListDocuments,
     setCurrentDocument,
+    openModalDeleteDocument,
+    deleteDocument,
+    setOpenModalDeleteDocument,
     setOpenModalCreateAndUpdateDocument,
   } = useDocumentStore();
 
@@ -60,6 +67,33 @@ const ManageDocument = () => {
   const handleCloseModalShowDocumentDetail = () => {
     setOpenModalShowDocumentDetail(false);
     setCurrentDocument(null);
+  };
+
+  const handleOpenModalDeleteDocument = (document: IDocument) => {
+    setCurrentDocument(document);
+    setOpenModalDeleteDocument(true);
+  };
+
+  const handleCloseModalDeleteDocument = () => {
+    setOpenModalDeleteDocument(false);
+    setCurrentDocument(null);
+  };
+
+  const handleConfirmDeleteDocument = async () => {
+    if (!currentDocument) return;
+    setIsLoading(true);
+    try {
+      const response = await DocumentService.deleteDocument(currentDocument?.id as string);
+      if (response && response.statusCode === 200) {
+        deleteDocument(currentDocument?.id as string);
+        handleCloseModalDeleteDocument();
+        toast.success('Xoá tài liệu thành công');
+      }
+    } catch (error: any) {
+      toast.error(error?.message || 'Xoá tài liệu thất bại');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const fetchAuthors = useCallback(async () => {
@@ -188,7 +222,7 @@ const ManageDocument = () => {
                 <span>Chỉnh sửa</span>
               </DropdownMenuItem>
               <DropdownMenuItem
-                // onClick={() => handleDeleteDocument(document)}
+                onClick={() => handleOpenModalDeleteDocument(document)}
                 className='flex items-center gap-2'
               >
                 <Trash className='w-4 h-4 text-red-500' />
@@ -240,6 +274,15 @@ const ManageDocument = () => {
         open={openModalShowDocumentDetail}
         onClose={handleCloseModalShowDocumentDetail}
         document={currentDocument}
+      />
+      <ModalConfirm
+        title='Xoá tài liệu'
+        description='Bạn có chắc chắn muốn xoá tài liệu này không?'
+        onConfirm={handleConfirmDeleteDocument}
+        type='delete'
+        open={openModalDeleteDocument}
+        onClose={handleCloseModalDeleteDocument}
+        isConfirming={isLoading}
       />
     </CardScroll>
   );

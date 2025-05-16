@@ -4,32 +4,15 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
+import useCategoryStore from '@/stores/categoryStore';
+import { Link } from 'react-router-dom';
 
 interface DocumentLayoutProps {
   children: React.ReactNode;
 }
 
-const category = [
-  { id: '1', name: 'Công nghệ thông tin' },
-  { id: '2', name: 'Khoa học tự nhiên' },
-  { id: '3', name: 'Khoa học xã hội' },
-  { id: '4', name: 'Kinh tế' },
-  { id: '5', name: 'Ngôn ngữ' },
-  { id: '6', name: 'Văn học' },
-  { id: '7', name: 'Lịch sử' },
-  { id: '8', name: 'Địa lý' },
-  { id: '9', name: 'Giáo dục' },
-  { id: '10', name: 'Nghệ thuật' },
-  { id: '11', name: 'Thể thao' },
-  { id: '12', name: 'Y học' },
-  { id: '13', name: 'Tâm lý học' },
-  { id: '14', name: 'Sách điện tử' },
-  { id: '15', name: 'Luận văn, luận án' },
-  { id: '16', name: 'Đề cương môn học' },
-  { id: '17', name: 'Giáo trình điện tử' },
-];
-
 const DocumentLayout = ({ children }: DocumentLayoutProps) => {
+  const { listCategories } = useCategoryStore();
   return (
     <ContainerBox>
       <div className='grid grid-cols-1 md:grid-cols-4 gap-6'>
@@ -61,16 +44,51 @@ const DocumentLayout = ({ children }: DocumentLayoutProps) => {
               Danh mục tài liệu
             </h5>
             <div className='space-y-2'>
-              {category.map((item) => (
-                <Button
-                  key={item.id}
-                  variant='outline'
-                  className='w-full justify-start border-gray-300 dark:border-gray-600 
-                  hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition'
-                >
-                  {item.name}
-                </Button>
-              ))}
+              {listCategories.length > 0 ? (
+                <>
+                  <Link
+                    to={`/document`}
+                    className='block px-4 py-2 rounded-lg transition-colors duration-200 ease-in-out font-medium shadow-sm 
+    bg-gray-100 dark:bg-gray-800 
+    text-gray-700 dark:text-gray-300 
+    hover:bg-purple-50 dark:hover:bg-purple-900/30 
+    hover:text-purple-600 dark:hover:text-purple-400'
+                  >
+                    Tất cả tài liệu
+                  </Link>
+                  {listCategories.map((item) => (
+                    <Link
+                      to={`/document/${item.slug}`}
+                      key={item.id}
+                      className='block px-4 py-2 rounded-lg transition-colors duration-200 ease-in-out font-medium shadow-sm 
+    bg-gray-100 dark:bg-gray-800 
+    text-gray-700 dark:text-gray-300 
+    hover:bg-purple-50 dark:hover:bg-purple-900/30 
+    hover:text-purple-600 dark:hover:text-purple-400'
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </>
+              ) : (
+                <div>
+                  {/* skeleton */}
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                  <div className='h-10 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+                </div>
+              )}
             </div>
           </Card>
         </div>

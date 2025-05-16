@@ -5,6 +5,7 @@ const RoutePaths = {
   Settings: '/settings',
   NotFound: '*',
   Document: '/document',
+  CategoryDocuments: '/document/:categorySlug',
   News: '/news',
 
   // Auth Routes
@@ -25,8 +26,14 @@ const RoutePaths = {
   ManagePublisher: '/admin/manage-publisher',
   ManageAuthor: '/admin/manage-author',
   ManageDocument: '/admin/manage-document',
+  ManageSeedData: '/admin/manage-seed-data',
 
   // User Routes
+  MyDocuments: '/my-documents',
+  MyDownloadDocuments: '/download-documents',
+  UploadDocument: '/upload-document',
+  MyPendingDocuments: '/pending-documents',
+  MySavedDocuments: '/saved-documents',
 } as const;
 
 export default RoutePaths;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from '../ThemeProvider';
 import GetCurrentUserProvider from '../GetCurrentUserProvider';
+import GetDataProvider from '../GetDataProvider';
 
 interface AppProviderProps {
   children: React.ReactNode;
@@ -8,7 +9,9 @@ interface AppProviderProps {
 const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <ThemeProvider>
-      <GetCurrentUserProvider>{children}</GetCurrentUserProvider>
+      <GetCurrentUserProvider>
+        <GetDataProvider>{children}</GetDataProvider>
+      </GetCurrentUserProvider>
     </ThemeProvider>
   );
 };

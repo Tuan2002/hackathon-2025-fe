@@ -54,6 +54,13 @@ export default function AccountLayout({ children }: AccountProfileProps) {
             >
               Cài đặt tài khoản
             </Button>
+            <Button
+              onClick={() => navigate(RoutePaths.MyDocuments)} // Thêm route này vào routePaths.ts nhé
+              variant='outline'
+              className='w-full justify-start bg-yellow-50 text-yellow-600'
+            >
+              Tài liệu của tôi
+            </Button>
           </Card>
         </div>
 

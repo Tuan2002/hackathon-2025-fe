@@ -22,6 +22,12 @@ import ManageCategoryPage from '@/pages/admin/manage-category/manage-category-pa
 import ManagePublisherPage from '@/pages/admin/manage-publisher/manage-publisher-page';
 import ManageAuthorPage from '@/pages/admin/manage-author/manage-author-page';
 import ManageDocumentPage from '@/pages/admin/manage-document/manage-document-page';
+import ManageSeedDataPage from '@/pages/admin/manage-seed-data/manage-seed-data-page';
+import MyDocumentPage from '@/pages/my-document/my-document-page';
+import DownloadDocumentPage from '@/pages/my-document/download-document-page';
+import UploadDocumentPage from '@/pages/my-document/upload-document-page';
+import PendingDocumentPage from '@/pages/my-document/pending-document-page';
+import SaveDocumentPage from '@/pages/my-document/saved-document-page';
 
 const AppRoute = () => {
   return (
@@ -37,6 +43,7 @@ const AppRoute = () => {
               <Route path={RoutePaths.ManagePublisher} element={<ManagePublisherPage />} />
               <Route path={RoutePaths.ManageAuthor} element={<ManageAuthorPage />} />
               <Route path={RoutePaths.ManageDocument} element={<ManageDocumentPage />} />
+              <Route path={RoutePaths.ManageSeedData} element={<ManageSeedDataPage />} />
             </Route>
           </Route>
 
@@ -45,6 +52,11 @@ const AppRoute = () => {
             <Route path={RoutePaths.AccountProfile} element={<ProfilePage />} />
             <Route path={RoutePaths.AccountSettings} element={<SetupPage />} />
             <Route path={RoutePaths.AccountChangePassword} element={<ChangePasswordPage />} />
+            <Route path={RoutePaths.MyDocuments} element={<MyDocumentPage />} />
+            <Route path={RoutePaths.MyDownloadDocuments} element={<DownloadDocumentPage />} />
+            <Route path={RoutePaths.UploadDocument} element={<UploadDocumentPage />} />
+            <Route path={RoutePaths.MyPendingDocuments} element={<PendingDocumentPage />} />
+            <Route path={RoutePaths.MySavedDocuments} element={<SaveDocumentPage />} />
           </Route>
         </Route>
         <Route element={<MainLayout />}>
@@ -52,6 +64,7 @@ const AppRoute = () => {
           <Route path={RoutePaths.Home} element={<HomePage />} />
           <Route path={RoutePaths.About} element={<AboutPage />} />
           <Route path={RoutePaths.Document} element={<DocumentCategoryPage />} />
+          <Route path={RoutePaths.CategoryDocuments} element={<DocumentCategoryPage />} />
           <Route path={RoutePaths.News} element={<NewsPage />} />
         </Route>
 

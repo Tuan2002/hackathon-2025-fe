@@ -8,6 +8,10 @@ const hiddenMainFooterRoutes = [
   RoutePaths.AccountProfile,
   RoutePaths.AccountSettings,
   RoutePaths.AccountChangePassword,
+  RoutePaths.MyDocuments,
+  RoutePaths.MyDownloadDocuments,
+  RoutePaths.UploadDocument,
+  RoutePaths.MyPendingDocuments,
 ];
 
 const MainLayout = () => {
