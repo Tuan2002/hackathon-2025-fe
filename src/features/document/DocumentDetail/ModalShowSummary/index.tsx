@@ -18,15 +18,16 @@ const ShowSummaryModal = ({ open, onClose, documentId }: ShowSummaryModalProps) 
   const [summaryContent, setSummaryContent] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
+  // Fetch summary content
   useEffect(() => {
     if (!open || !documentId) return;
+
     const fetchSummary = async () => {
       setIsLoading(true);
       try {
-        // Simulate fetching summary content
         const response = await DocumentService.generateSummary(documentId);
+
         if (response.statusCode === 200 || response.statusCode === 201) {
           setSummaryContent(response.data.content);
         } else {
@@ -38,19 +39,26 @@ const ShowSummaryModal = ({ open, onClose, documentId }: ShowSummaryModalProps) 
         setIsLoading(false);
       }
     };
+
     fetchSummary();
   }, [open, documentId]);
 
+  // Fetch audio file
   useEffect(() => {
     if (!open || !documentId || !summaryContent) return;
+
     const fetchAudio = async () => {
       try {
-        const response = await DocumentService.textToSpeech(summaryContent);
-        console.log('response', response);
+        const response = await DocumentService.textToSpeech(documentId);
+        console.log('response audio', response);
+
+        // response.data là blob, phải lấy cái này mới đúng
+        setAudioBlob(response);
       } catch (error: any) {
-        toast.error(error?.message || 'Có lỗi xảy ra trong quá trình tải tóm tắt tài liệu');
+        toast.error(error?.message || 'Có lỗi xảy ra trong quá trình tải âm thanh');
       }
     };
+
     fetchAudio();
   }, [open, documentId, summaryContent]);
 
@@ -64,25 +72,24 @@ const ShowSummaryModal = ({ open, onClose, documentId }: ShowSummaryModalProps) 
       isFullHeight
     >
       {isLoading ? (
-        <div className=''>
-          <div className='h-5 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md'></div>
-          <div className='h-5 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
-          <div className='h-5 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
-          <div className='h-5 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
-          <div className='h-5 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
-          <div className='h-5 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
-          <div className='h-5 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
-          <div className='h-5 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
-          <div className='h-5 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
-          <div className='h-5 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'></div>
+        <div>
+          {[...Array(10)].map((_, i) => (
+            <div
+              key={i}
+              className='h-5 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md mt-2'
+            ></div>
+          ))}
         </div>
       ) : (
         <div className='prose max-w-full min-h-[400px]'>
+          {/* Audio player */}
           <AudioPlayer
             audioBlob={audioBlob || undefined}
             title='Nghe tài liệu'
             isLoading={isLoading}
           />
+
+          {/* Markdown summary */}
           {summaryContent ? (
             <ReactMarkdown>{summaryContent}</ReactMarkdown>
           ) : (

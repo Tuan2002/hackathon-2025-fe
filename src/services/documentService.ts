@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ENVIRONMENT from '@/constants/env';
 import type { IAppResposeBase } from '@/types/baseType';
 import type {
   IComment,
@@ -12,7 +11,6 @@ import type {
   IUploadDocumentResponse,
 } from '@/types/documentType';
 import http from '@/utils/customAxios';
-import axios from 'axios';
 
 const uploadFile = async (file: File): Promise<IAppResposeBase<IUploadDocumentResponse>> => {
   console.log('file', file);
@@ -267,25 +265,11 @@ const getAuthDocumentBySlug = async (slug: string): Promise<IAppResposeBase<IDoc
   }
 };
 
-const textToSpeech = async (text: string): Promise<any> => {
+const textToSpeech = async (id: string): Promise<any> => {
   try {
-    const response = await axios.post(
-      'https://tts.vncsoft.com/v1/audio/speech',
-      {
-        model: 'tts-1',
-        text,
-        voice: 'vi-VN-NamMinhNeural',
-        speed: 1,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-          Authorization: `Bearer ${ENVIRONMENT.VITE_TTS_TOKEN}`,
-        },
-      },
-    );
+    const response = await http.get(`/v1/documents/generate-audio-summary/${id}`, {
+      responseType: 'blob',
+    });
     return response;
   } catch (error: any) {
     throw error.response.data;

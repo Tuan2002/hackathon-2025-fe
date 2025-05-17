@@ -3,7 +3,7 @@
 import CardScroll from '@/components/customs/CardScroll';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Edit, Eye, MoreVertical, Plus, Search, Trash } from 'lucide-react';
+import { Download, Edit, Eye, Heart, MoreVertical, Plus, Search, Trash } from 'lucide-react';
 import CreateAndUpdateDocumentModal from './CreateAndUpdateDocumentModal';
 import useDocumentStore from '@/stores/documentStore';
 import type { IDocument } from '@/types/documentType';
@@ -25,10 +25,18 @@ import TableCustom from '@/components/customs/TableCustom';
 import ShowDocumentDetailModal from '../../../components/ShowDocumentDetailModal';
 import ModalConfirm from '@/components/customs/ModalConfirm';
 import { toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
+import RoutePaths from '@/routes/routePaths';
+import {
+  DOCUMENT_STATUS_COLORS,
+  DOCUMENT_STATUS_LABELS,
+  DOCUMENT_STATUSES,
+} from '@/constants/documentStatuses';
 
 const ManageDocument = () => {
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const {
     listDocuments,
     currentDocument,
@@ -140,13 +148,11 @@ const ManageDocument = () => {
     }
   }, [setListDocuments]);
 
-  const columns = useMemo(() => {
-    return [
+  const columns = useMemo(
+    () => [
       {
         id: 'image',
         title: 'Ảnh',
-        headerClass: 'text-center',
-        cellClass: 'text-center',
         render: (document: IDocument) => (
           <div className='flex justify-center'>
             <img
@@ -159,24 +165,29 @@ const ManageDocument = () => {
       },
       {
         id: 'name',
-        title: 'Tên tài liệu',
-        headerClass: 'text-left',
-        render: (document: IDocument) => <div className='font-semibold'>{document.name}</div>,
-      },
-      {
-        id: 'shortDescription',
-        title: 'Mô tả ngắn',
-        headerClass: 'text-left',
+        title: 'Nội dung tài liệu',
         render: (document: IDocument) => (
-          <p className='text-sm text-gray-600 line-clamp-4 max-w-[400px]'>
-            {document.shortDescription}
-          </p>
+          <div className='max-w-[250px] text-sm flex flex-col justify-between min-h-24'>
+            {document.status === DOCUMENT_STATUSES.APPROVED ? (
+              <Link
+                to={RoutePaths.DocumentDetail.replace(
+                  ':categorySlug',
+                  document.categorySlug,
+                ).replace(':documentSlug', document.slug)}
+                className='font-semibold line-clamp-2 text-justify'
+              >
+                {document.name}
+              </Link>
+            ) : (
+              <div className='font-semibold line-clamp-2 text-justify'>{document.name}</div>
+            )}
+            <div className='line-clamp-3 text-justify'>{document.description}</div>
+          </div>
         ),
       },
       {
         id: 'info',
         title: 'Thông tin',
-        headerClass: 'text-left',
         render: (document: IDocument) => (
           <div className='text-sm space-y-1'>
             <div>
@@ -195,15 +206,42 @@ const ManageDocument = () => {
         ),
       },
       {
+        id: 'statistics',
+        title: 'Thông số',
+        render: (document: IDocument) => (
+          <div className='text-sm space-y-1 flex items-center justify-center flex-col'>
+            <div className='flex items-center gap-1'>
+              <Eye size={14} /> {document.viewCount} lượt xem
+            </div>
+            <div className='flex items-center gap-1'>
+              <Heart size={14} /> {document.favoriteCount} lượt thích
+            </div>
+            <div className='flex items-center gap-1'>
+              <Download size={14} /> {document.downloadCount} lượt tải
+            </div>
+          </div>
+        ),
+      },
+      {
+        id: 'status',
+        title: 'Trạng thái',
+        render: (document: IDocument) => (
+          <span
+            className='p-2 rounded-full text-xs font-medium text-slate-700'
+            style={{ backgroundColor: DOCUMENT_STATUS_COLORS[document.status] || '#e0e7ff' }}
+          >
+            {DOCUMENT_STATUS_LABELS[document.status] || 'Chưa xác định'}
+          </span>
+        ),
+      },
+      {
         id: 'actions',
         title: 'Tác vụ',
-        headerClass: 'text-right',
-        cellClass: 'text-right',
         render: (document: IDocument) => (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant='secondary' size='icon'>
-                <MoreVertical className='w-5 h-5 text-gray-700 dark:text-gray-300' />
+                <MoreVertical className='w-5 h-5 text-gray-700' />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end' className='w-48'>
@@ -211,30 +249,29 @@ const ManageDocument = () => {
                 onClick={() => handleOpenModalShowDocumentDetail(document)}
                 className='flex items-center gap-2'
               >
-                <Eye className='w-4 h-4 text-blue-500' />
-                <span>Xem chi tiết</span>
+                <Eye className='w-4 h-4 text-blue-500' /> Xem chi tiết
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => handleOpenModalCreateAndUpdateDocument(document)}
+                onClick={() =>
+                  navigate(RoutePaths.UpdateDocument.replace(':documentId', document.id))
+                }
                 className='flex items-center gap-2'
               >
-                <Edit className='w-4 h-4 text-green-500' />
-                <span>Chỉnh sửa</span>
+                <Edit className='w-4 h-4 text-green-500' /> Chỉnh sửa
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => handleOpenModalDeleteDocument(document)}
                 className='flex items-center gap-2'
               >
-                <Trash className='w-4 h-4 text-red-500' />
-                <span>Xoá</span>
+                <Trash className='w-4 h-4 text-red-500' /> Xoá
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         ),
       },
-    ];
-  }, [handleOpenModalCreateAndUpdateDocument, handleOpenModalShowDocumentDetail]);
-
+    ],
+    [],
+  );
   const filteredDocuments = listDocuments?.filter((a) =>
     a.name?.toLowerCase()?.includes(search?.toLowerCase()),
   );

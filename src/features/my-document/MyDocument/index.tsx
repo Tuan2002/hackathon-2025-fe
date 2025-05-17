@@ -230,7 +230,7 @@ const MyDocument = () => {
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        const response = await DocumentService.getDocuments();
+        const response = await DocumentService.getMyDocuments();
         if (response.statusCode === 200) {
           setListDocuments(response.data);
         } else {
