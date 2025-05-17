@@ -152,7 +152,7 @@ const ManageDocument = () => {
     () => [
       {
         id: 'image',
-        title: 'Ảnh',
+        title: <div className='text-center'>Ảnh</div>,
         render: (document: IDocument) => (
           <div className='flex justify-center'>
             <img
@@ -207,7 +207,7 @@ const ManageDocument = () => {
       },
       {
         id: 'statistics',
-        title: 'Thông số',
+        title: <div className='text-center'>Thông số</div>,
         render: (document: IDocument) => (
           <div className='text-sm space-y-1 flex items-center justify-center flex-col'>
             <div className='flex items-center gap-1'>

@@ -17,6 +17,7 @@ import ShowSummaryModal from './ModalShowSummary';
 import getAccessToken from '@/utils/getAccessToken';
 import CommentBox from './CommentBox';
 import SimilarDocument from './SimilarDocument';
+import ChatBotPopover from '../../../components/ChatbotBox';
 
 const DocumentDetail = () => {
   const { documentSlug, categorySlug } = useParams<{
@@ -170,6 +171,9 @@ const DocumentDetail = () => {
             currentDocumentId={currentDocument?.id as string}
             categorySlug={categorySlug as string}
           />
+
+          {/* Chatbot */}
+          {currentDocument?.id && <ChatBotPopover documentId={currentDocument?.id} />}
 
           {/* Modal summary */}
           <ShowSummaryModal

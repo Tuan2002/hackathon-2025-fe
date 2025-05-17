@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -18,7 +18,7 @@ import {
 
 interface ColumnProps {
   id: string;
-  title: string;
+  title: React.ReactNode;
   headerClass?: string;
   cellClass?: string;
   render: (item: any, index: number) => React.ReactNode;
