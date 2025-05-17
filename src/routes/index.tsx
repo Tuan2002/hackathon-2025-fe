@@ -56,6 +56,7 @@ const AppRoute = () => {
             <Route path={RoutePaths.MyDocuments} element={<MyDocumentPage />} />
             <Route path={RoutePaths.MyDownloadDocuments} element={<DownloadDocumentPage />} />
             <Route path={RoutePaths.UploadDocument} element={<UploadDocumentPage />} />
+            <Route path={RoutePaths.UpdateDocument} element={<UploadDocumentPage />} />
             <Route path={RoutePaths.MyPendingDocuments} element={<PendingDocumentPage />} />
             <Route path={RoutePaths.MySavedDocuments} element={<SaveDocumentPage />} />
           </Route>

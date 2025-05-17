@@ -6,6 +6,7 @@ import ModalCustom from '@/components/customs/ModalCustom';
 import { useEffect, useState } from 'react';
 import DocumentService from '@/services/documentService';
 import { toast } from 'react-toastify';
+import { AudioPlayer } from './AudioPlayer';
 
 interface ShowSummaryModalProps {
   open: boolean;
@@ -16,6 +17,9 @@ interface ShowSummaryModalProps {
 const ShowSummaryModal = ({ open, onClose, documentId }: ShowSummaryModalProps) => {
   const [summaryContent, setSummaryContent] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     if (!open || !documentId) return;
     const fetchSummary = async () => {
@@ -36,6 +40,20 @@ const ShowSummaryModal = ({ open, onClose, documentId }: ShowSummaryModalProps) 
     };
     fetchSummary();
   }, [open, documentId]);
+
+  useEffect(() => {
+    if (!open || !documentId || !summaryContent) return;
+    const fetchAudio = async () => {
+      try {
+        const response = await DocumentService.textToSpeech(summaryContent);
+        console.log('response', response);
+      } catch (error: any) {
+        toast.error(error?.message || 'Có lỗi xảy ra trong quá trình tải tóm tắt tài liệu');
+      }
+    };
+    fetchAudio();
+  }, [open, documentId, summaryContent]);
+
   return (
     <ModalCustom
       open={open}
@@ -60,6 +78,11 @@ const ShowSummaryModal = ({ open, onClose, documentId }: ShowSummaryModalProps) 
         </div>
       ) : (
         <div className='prose max-w-full min-h-[400px]'>
+          <AudioPlayer
+            audioBlob={audioBlob || undefined}
+            title='Nghe tài liệu'
+            isLoading={isLoading}
+          />
           {summaryContent ? (
             <ReactMarkdown>{summaryContent}</ReactMarkdown>
           ) : (

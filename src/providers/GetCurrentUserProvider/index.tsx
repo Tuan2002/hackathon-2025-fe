@@ -13,9 +13,9 @@ const GetCurrentUserProvider = ({ children }: { children: React.ReactNode }) => 
       try {
         const response = await accountService.getMe();
         if (response.statusCode === 200 || response.statusCode === 201) {
+          console.log('Current user:', response.data);
           setAccessToken(accessToken);
           setCurrentUser(response.data);
-          console.log('Current user:', response.data);
         } else {
           setAccessToken(null);
           setCurrentUser(null);

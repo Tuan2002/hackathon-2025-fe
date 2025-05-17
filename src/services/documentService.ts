@@ -1,14 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import ENVIRONMENT from '@/constants/env';
 import type { IAppResposeBase } from '@/types/baseType';
 import type {
+  IComment,
   ICreateDocumentRequest,
   IDocument,
   IGenerateSummaryResponse,
   IGetDownloadDocumentUrlResponse,
+  ISendCommentRequest,
   IUpdateDocumentRequest,
   IUploadDocumentResponse,
 } from '@/types/documentType';
 import http from '@/utils/customAxios';
+import axios from 'axios';
 
 const uploadFile = async (file: File): Promise<IAppResposeBase<IUploadDocumentResponse>> => {
   console.log('file', file);
@@ -263,6 +267,98 @@ const getAuthDocumentBySlug = async (slug: string): Promise<IAppResposeBase<IDoc
   }
 };
 
+const textToSpeech = async (text: string): Promise<any> => {
+  try {
+    const response = await axios.post(
+      'https://tts.vncsoft.com/v1/audio/speech',
+      {
+        model: 'tts-1',
+        text,
+        voice: 'vi-VN-NamMinhNeural',
+        speed: 1,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          Authorization: `Bearer ${ENVIRONMENT.VITE_TTS_TOKEN}`,
+        },
+      },
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const postComment = async (
+  documentId: string,
+  data: ISendCommentRequest,
+): Promise<IAppResposeBase<IComment>> => {
+  try {
+    const response: IAppResposeBase<IComment> = await http.post(
+      `/v1/documents/post-comment/${documentId}`,
+      data,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const getComments = async (documentId: string): Promise<IAppResposeBase<IComment[]>> => {
+  try {
+    const response: IAppResposeBase<IComment[]> = await http.get(
+      `/v1/documents/get-comments/${documentId}`,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const updateComment = async (
+  commentId: string,
+  data: ISendCommentRequest,
+): Promise<IAppResposeBase<IComment>> => {
+  try {
+    const response: IAppResposeBase<IComment> = await http.patch(
+      `/v1/documents/update-comment/${commentId}`,
+      data,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const deleteComment = async (commentId: string): Promise<IAppResposeBase<IComment>> => {
+  try {
+    const response: IAppResposeBase<IComment> = await http.delete(
+      `/v1/documents/delete-comment/${commentId}`,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const replyComment = async (
+  commentId: string,
+  data: ISendCommentRequest,
+): Promise<IAppResposeBase<IComment>> => {
+  try {
+    const response: IAppResposeBase<IComment> = await http.post(
+      `/v1/documents/reply-comment/${commentId}`,
+      data,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
 const DocumentService = {
   uploadFile,
   getMyDocuments,
@@ -286,5 +382,11 @@ const DocumentService = {
   getAllDownloadedDocuments,
   getAuthDocuments,
   getAuthDocumentBySlug,
+  textToSpeech,
+  postComment,
+  getComments,
+  updateComment,
+  deleteComment,
+  replyComment,
 };
 export default DocumentService;

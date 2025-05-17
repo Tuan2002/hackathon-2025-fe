@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from '@/components/ui/button';
-import { Download, Edit, Eye, Heart, MoreVertical, Trash } from 'lucide-react';
+import { Download, Eye, Heart, HeartOff, MoreVertical } from 'lucide-react';
 import useDocumentStore from '@/stores/documentStore';
 import type { IDocument } from '@/types/documentType';
 import { useEffect, useMemo, useState } from 'react';
@@ -15,15 +15,9 @@ import {
 import TableCustom from '@/components/customs/TableCustom';
 import { toast } from 'react-toastify';
 import MyDocumentLayout from '@/layouts/MyDocumentLayout';
-import {
-  DOCUMENT_STATUS_COLORS,
-  DOCUMENT_STATUS_LABELS,
-  DOCUMENT_STATUS_OPTIONS,
-  DOCUMENT_STATUSES,
-} from '@/constants/documentStatuses';
 import ModalConfirm from '@/components/customs/ModalConfirm';
 import ShowDocumentDetailModal from '@/components/ShowDocumentDetailModal';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import RoutePaths from '@/routes/routePaths';
 import useCategoryStore from '@/stores/categoryStore';
 import {
@@ -34,13 +28,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { DOCUMENT_STATUSES } from '@/constants/documentStatuses';
 
-const MyDocument = () => {
+const FavoriteDocument = () => {
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
-  const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
   const {
     listDocuments,
@@ -80,14 +73,14 @@ const MyDocument = () => {
     if (!currentDocument) return;
     setIsLoading(true);
     try {
-      const response = await DocumentService.deleteDocument(currentDocument.id as string);
+      const response = await DocumentService.favoriteDocument(currentDocument.id as string);
       if (response && response.statusCode === 200) {
         deleteDocument(currentDocument.id as string);
         handleCloseModalDeleteDocument();
-        toast.success('Xoá tài liệu thành công');
+        toast.success('Đã bỏ yêu thích tài liệu');
       }
     } catch (error: any) {
-      toast.error(error?.message || 'Xoá tài liệu thất bại');
+      toast.error(error?.message || 'Có lỗi xảy ra khi bỏ yêu thích tài liệu');
     } finally {
       setIsLoading(false);
     }
@@ -167,18 +160,7 @@ const MyDocument = () => {
           </div>
         ),
       },
-      {
-        id: 'status',
-        title: 'Trạng thái',
-        render: (document: IDocument) => (
-          <span
-            className='p-2 rounded-full text-xs font-medium text-slate-700'
-            style={{ backgroundColor: DOCUMENT_STATUS_COLORS[document.status] || '#e0e7ff' }}
-          >
-            {DOCUMENT_STATUS_LABELS[document.status] || 'Chưa xác định'}
-          </span>
-        ),
-      },
+
       {
         id: 'actions',
         title: 'Tác vụ',
@@ -197,18 +179,10 @@ const MyDocument = () => {
                 <Eye className='w-4 h-4 text-blue-500' /> Xem chi tiết
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() =>
-                  navigate(RoutePaths.UpdateDocument.replace(':documentId', document.id))
-                }
-                className='flex items-center gap-2'
-              >
-                <Edit className='w-4 h-4 text-green-500' /> Chỉnh sửa
-              </DropdownMenuItem>
-              <DropdownMenuItem
                 onClick={() => handleOpenModalDeleteDocument(document)}
                 className='flex items-center gap-2'
               >
-                <Trash className='w-4 h-4 text-red-500' /> Xoá
+                <HeartOff className='w-4 h-4 text-red-500' /> Bỏ yêu thích
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -222,15 +196,14 @@ const MyDocument = () => {
     return listDocuments?.filter((doc) => {
       const matchesSearch = doc.name?.toLowerCase().includes(search.toLowerCase());
       const matchesCategory = categoryFilter ? doc.categoryId === categoryFilter : true;
-      const matchesStatus = statusFilter ? doc.status === statusFilter : true;
-      return matchesSearch && matchesCategory && matchesStatus;
+      return matchesSearch && matchesCategory;
     });
-  }, [listDocuments, search, categoryFilter, statusFilter]);
+  }, [listDocuments, search, categoryFilter]);
 
   useEffect(() => {
-    const fetchDocuments = async () => {
+    const fetchFavoriteDocuments = async () => {
       try {
-        const response = await DocumentService.getDocuments();
+        const response = await DocumentService.getFavoriteDocuments();
         if (response.statusCode === 200) {
           setListDocuments(response.data);
         } else {
@@ -240,7 +213,7 @@ const MyDocument = () => {
         toast.error(error?.message || 'Có lỗi xảy ra khi tải tài liệu');
       }
     };
-    fetchDocuments();
+    fetchFavoriteDocuments();
   }, []);
 
   return (
@@ -268,23 +241,6 @@ const MyDocument = () => {
             ))}
           </SelectContent>
         </Select>
-
-        <Select
-          value={statusFilter ?? 'all'}
-          onValueChange={(val) => setStatusFilter(val === 'all' ? null : val)}
-        >
-          <SelectTrigger className='w-48'>
-            <SelectValue placeholder='Chọn trạng thái' />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value='all'>Tất cả trạng thái</SelectItem>
-            {DOCUMENT_STATUS_OPTIONS.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value}>
-                {opt.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
       </div>
 
       <TableCustom data={filteredDocuments ?? []} columns={columns} />
@@ -294,10 +250,10 @@ const MyDocument = () => {
         document={currentDocument}
       />
       <ModalConfirm
-        title='Xoá tài liệu'
-        description='Bạn có chắc chắn muốn xoá tài liệu này không?'
+        title='Bỏ yêu thích tài liệu'
+        description='Bạn có chắc chắn muốn xoá tài liệu này khỏi danh sách tài liệu yêu thích không?'
         onConfirm={handleConfirmDeleteDocument}
-        type='delete'
+        type='warning'
         open={openModalDeleteDocument}
         onClose={handleCloseModalDeleteDocument}
         isConfirming={isLoading}
@@ -306,4 +262,4 @@ const MyDocument = () => {
   );
 };
 
-export default MyDocument;
+export default FavoriteDocument;

@@ -9,10 +9,9 @@ interface MyDocumentLayoutProps {
 
 const navItems = [
   { label: 'Tài liệu của tôi', path: RoutePaths.MyDocuments },
-  { label: 'Đang chờ duyệt', path: RoutePaths.MyPendingDocuments },
   { label: 'Tải tài liệu lên', path: RoutePaths.UploadDocument },
-  { label: 'Tài liệu đã lưu', path: RoutePaths.MyDownloadDocuments },
-  { label: 'Tài liệu đã tải về', path: RoutePaths.MySavedDocuments },
+  { label: 'Tài liệu yêu thích', path: RoutePaths.MySavedDocuments },
+  { label: 'Tài liệu đã tải về', path: RoutePaths.MyDownloadDocuments },
 ];
 
 const MyDocumentLayout = ({ children }: MyDocumentLayoutProps) => {
@@ -20,7 +19,7 @@ const MyDocumentLayout = ({ children }: MyDocumentLayoutProps) => {
     <AccountLayout>
       <Card className='h-[calc(100vh-120px)] shadow-lg space-y-6 relative'>
         <div
-          className='flex flex-wrap gap-3 items-center justify-center absolute top-0 left-0 w-full py-3 bg-white dark:bg-gray-700 dark:border-b-gray-500 border-b-2 border-b-gray-200'
+          className='flex flex-wrap gap-3 items-center justify-center absolute z-50 top-0 left-0 w-full py-3 bg-white dark:bg-gray-700 dark:border-b-gray-500 border-b-2 border-b-gray-200'
           style={{ borderTopLeftRadius: '12px', borderTopRightRadius: '12px' }}
         >
           {navItems.map((item) => (

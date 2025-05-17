@@ -8,5 +8,6 @@ const ENVIRONMENT = {
   AUTH_SERVER_URL: import.meta.env.VITE_AUTH_SERVER_URL || '',
   AUTH_CLIENT_ID: import.meta.env.VITE_CLIENT_ID || '',
   REDIRECT_URL: import.meta.env.VITE_REDIRECT_URL || '',
+  VITE_TTS_TOKEN: import.meta.env.VITE_TTS_TOKEN || '',
 };
 export default ENVIRONMENT;

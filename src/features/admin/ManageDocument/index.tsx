@@ -22,7 +22,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import TableCustom from '@/components/customs/TableCustom';
-import ShowDocumentDetailModal from './ShowDocumentDetailModal';
+import ShowDocumentDetailModal from '../../../components/ShowDocumentDetailModal';
 import ModalConfirm from '@/components/customs/ModalConfirm';
 import { toast } from 'react-toastify';
 

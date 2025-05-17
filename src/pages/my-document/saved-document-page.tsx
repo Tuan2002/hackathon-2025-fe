@@ -1,7 +1,7 @@
-import DownloadDocumentPage from './download-document-page';
+import FavoriteDocument from '@/features/my-document/FavoriteDocument';
 
 const SaveDocumentPage = () => {
-  return <DownloadDocumentPage />;
+  return <FavoriteDocument />;
 };
 
 export default SaveDocumentPage;

@@ -63,6 +63,7 @@ const ShowDocumentDetailModal = ({ open, onClose, document }: ShowDocumentDetail
 
           {renderRow('Lượt xem', document.viewCount)}
           {renderRow('Lượt tải', document.downloadCount)}
+          {renderRow('Lượt thích', document.favoriteCount)}
         </div>
       </div>
 

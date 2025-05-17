@@ -87,3 +87,25 @@ export interface IGenerateSummaryResponse {
   content: string;
   documentId: string;
 }
+
+export interface ISendCommentRequest {
+  content: string;
+  image: string | null;
+}
+
+export interface IComment {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  parentId: string;
+  documentId: string;
+  commenterId: string;
+  content: string;
+  image: string;
+  isEdited: true;
+  likeCount: number;
+  dislikeCount: number;
+  replyCount: number;
+  commenterName: string;
+  commenterImage: string;
+}

@@ -15,6 +15,8 @@ import InfomationBox from './InfomationBox';
 import PreviewBox from './PreviewBox';
 import ShowSummaryModal from './ModalShowSummary';
 import getAccessToken from '@/utils/getAccessToken';
+import CommentBox from './CommentBox';
+import SimilarDocument from './SimilarDocument';
 
 const DocumentDetail = () => {
   const { documentSlug, categorySlug } = useParams<{
@@ -158,6 +160,15 @@ const DocumentDetail = () => {
             isDownloading={isDownloading}
             onDownload={handleDownloadDocument}
             currentDocument={currentDocument}
+          />
+
+          {/* Bình luận */}
+          <CommentBox documentId={currentDocument?.id} />
+
+          {/* Tài liệu tương tự */}
+          <SimilarDocument
+            currentDocumentId={currentDocument?.id as string}
+            categorySlug={categorySlug as string}
           />
 
           {/* Modal summary */}

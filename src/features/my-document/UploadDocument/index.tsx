@@ -21,7 +21,8 @@ import useAuthorStore from '@/stores/authorStore';
 import { Image as ImageIcon, UploadCloud } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import uploadService from '@/services/uploadService';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import RoutePaths from '@/routes/routePaths';
 const UploadDocument = () => {
   const { listCategories } = useCategoryStore();
   const { listPublishers } = usePublisherStore();
@@ -45,23 +46,34 @@ const UploadDocument = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const { updateDocument, createDocument } = useDocumentStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchDocument = async () => {
+      if (documentId) {
+        const response = await DocumentService.getDocumentById(documentId);
+        if (response && response.statusCode === 200) {
+          setDocumentData({
+            name: response.data.name,
+            image: response.data.image,
+            authorId: response.data.authorId,
+            publisherId: response.data.publisherId,
+            categoryId: response.data.categoryId,
+            shortDescription: response.data.shortDescription,
+            description: response.data.description,
+            fileKey: response.data.fileKey,
+            fileName: response.data.fileName,
+            fileType: response.data.fileType,
+          });
+        } else {
+          toast.error('Không tìm thấy tài liệu');
+        }
+      }
+    };
     if (documentId) {
-      // setDocumentData({
-      //   name: currentDocument.name,
-      //   image: currentDocument.image,
-      //   authorId: currentDocument.authorId,
-      //   publisherId: currentDocument.publisherId,
-      //   categoryId: currentDocument.categoryId,
-      //   shortDescription: currentDocument.shortDescription,
-      //   description: currentDocument.description,
-      //   fileKey: currentDocument.fileKey,
-      //   fileName: currentDocument.fileName,
-      //   fileType: currentDocument.fileType,
-      // });
-      // setImageFile(null);
-      // setDocumentFile(null);
+      fetchDocument();
+      setImageFile(null);
+      setDocumentFile(null);
     } else {
       setDocumentData({
         name: '',
@@ -115,6 +127,7 @@ const UploadDocument = () => {
         const res = await DocumentService.updateDocument(documentId, documentData);
         if (res) {
           updateDocument(res.data);
+          navigate(RoutePaths.MyDocuments);
           toast.success('Cập nhật tài liệu thành công');
         } else {
           toast.error('Cập nhật thất bại');
@@ -124,6 +137,7 @@ const UploadDocument = () => {
         const res = await DocumentService.createDocument(documentData);
         if (res) {
           createDocument(res.data);
+          navigate(RoutePaths.MyDocuments);
           toast.success('Tạo tài liệu thành công');
         } else {
           toast.error('Tạo tài liệu thất bại');

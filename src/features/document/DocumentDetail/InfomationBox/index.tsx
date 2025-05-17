@@ -6,6 +6,8 @@ import { DownloadIcon, FileTextIcon, HeartIcon } from 'lucide-react';
 import type { IDocument } from '@/types/documentType';
 import useDocumentStore from '@/stores/documentStore';
 import ButtonCustom from '@/components/customs/ButtonCustom';
+import useAccountStore from '@/stores/accountStore';
+import { toast } from 'react-toastify';
 
 interface InfomationBoxProps {
   currentDocument: IDocument | null;
@@ -25,6 +27,7 @@ const InfomationBox = ({
   isDownloading = false,
 }: InfomationBoxProps) => {
   const { setOpenModalShowSummaryDocument } = useDocumentStore();
+  const { currentUser } = useAccountStore();
 
   const renderRow = (label: string, value: any) => (
     <div className='flex items-center gap-3'>
@@ -34,7 +37,19 @@ const InfomationBox = ({
   );
 
   const handleShowSummary = () => {
+    if (!currentUser?.id) {
+      toast.error('Vui lòng đăng nhập để xem tóm tắt tài liệu');
+      return;
+    }
     setOpenModalShowSummaryDocument(true);
+  };
+
+  const handleDownload = () => {
+    if (!currentUser?.id) {
+      toast.error('Vui lòng đăng nhập để tải tài liệu');
+      return;
+    }
+    onDownload?.();
   };
 
   return (
@@ -73,15 +88,17 @@ const InfomationBox = ({
 
         <div className='flex items-center gap-3'>
           {/* Nút yêu thích */}
-          <ButtonCustom
-            isLoading={isLoadingFavorite}
-            variant={isFavorite ? 'default' : 'outline'}
-            className={`gap-2 ${isFavorite ? 'bg-red-500 text-white hover:bg-red-600' : 'text-red-500 border-red-300 hover:bg-red-50'}`}
-            onClick={onFavoriteToggle}
-          >
-            <HeartIcon className='w-5 h-5' />
-            <span className='text-sm'>{isFavorite ? 'Đã yêu thích' : 'Yêu thích'}</span>
-          </ButtonCustom>
+          {currentUser?.id && (
+            <ButtonCustom
+              isLoading={isLoadingFavorite}
+              variant={isFavorite ? 'default' : 'outline'}
+              className={`gap-2 ${isFavorite ? 'bg-red-500 text-white hover:bg-red-600' : 'text-red-500 border-red-300 hover:bg-red-50'}`}
+              onClick={onFavoriteToggle}
+            >
+              <HeartIcon className='w-5 h-5' />
+              <span className='text-sm'>{isFavorite ? 'Đã yêu thích' : 'Yêu thích'}</span>
+            </ButtonCustom>
+          )}
 
           {/* Nút xem tóm tắt */}
           <Button
@@ -95,7 +112,7 @@ const InfomationBox = ({
 
           {/* Nút tải về */}
           <ButtonCustom
-            onClick={onDownload}
+            onClick={handleDownload}
             isLoading={isDownloading}
             variant='default'
             className='flex items-center gap-2'

@@ -7,6 +7,7 @@ import DocumentLayout from '@/layouts/DocumentLayout';
 import DocumentService from '@/services/documentService';
 import useCategoryStore from '@/stores/categoryStore';
 import useDocumentStore from '@/stores/documentStore';
+import type { IDocument } from '@/types/documentType';
 import getAccessToken from '@/utils/getAccessToken';
 import { FileX } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -41,9 +42,12 @@ const DocumentCategory = () => {
       try {
         const response = accessToken
           ? await DocumentService.getAuthDocuments()
-          : await DocumentService.getMyDocuments();
+          : await DocumentService.getPublicDocuments();
         if (response) {
-          setListDocuments(response.data);
+          const documents = response.data?.filter(
+            (item: IDocument) => item.categorySlug === categorySlug,
+          );
+          setListDocuments(categorySlug && currentCategory?.id ? documents : response.data);
         } else {
           setListDocuments([]);
         }

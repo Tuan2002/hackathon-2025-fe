@@ -54,17 +54,6 @@ const ConfigBanner = () => {
     },
   });
 
-  const fetchBanners = async () => {
-    try {
-      const response = await BannerService.getBanners();
-      if ((response && response.statusCode === 200) || response.statusCode === 201) {
-        setListBanners(response.data);
-      }
-    } catch (error: any) {
-      toast.error(error?.message || 'Có lỗi xảy ra trong quá trình lấy danh sách banner');
-    }
-  };
-
   const handleOpenModalCreateAndUpdate = (banner: IBanner | null) => {
     setCurrentBanner(banner);
     setOpenModalCreateAndUpdateBanner(true);
@@ -128,8 +117,18 @@ const ConfigBanner = () => {
   };
 
   useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const response = await BannerService.getBanners();
+        if ((response && response.statusCode === 200) || response.statusCode === 201) {
+          setListBanners(response.data);
+        }
+      } catch (error: any) {
+        toast.error(error?.message || 'Có lỗi xảy ra trong quá trình lấy danh sách banner');
+      }
+    };
     fetchBanners();
-  }, [fetchBanners]);
+  }, []);
 
   return (
     <Card>

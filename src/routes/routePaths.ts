@@ -33,8 +33,9 @@ const RoutePaths = {
   MyDocuments: '/my-documents',
   MyDownloadDocuments: '/download-documents',
   UploadDocument: '/upload-document',
+  UpdateDocument: '/upload-document/:documentId',
   MyPendingDocuments: '/pending-documents',
-  MySavedDocuments: '/saved-documents',
+  MySavedDocuments: '/favorite-documents',
 } as const;
 
 export default RoutePaths;

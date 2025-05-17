@@ -5,8 +5,10 @@ import ContainerBox from '@/components/customs/ContainerBox';
 import { NAVBAR_MENU_ITEMS } from '@/constants/menuItems';
 import { Link, NavLink } from 'react-router-dom';
 import RoutePaths from '@/routes/routePaths';
+import getAccessToken from '@/utils/getAccessToken';
 
 const MainHeader: React.FC = () => {
+  const accessToken = getAccessToken();
   return (
     <header className='h-[70px] border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 shadow-sm'>
       <ContainerBox>
@@ -46,7 +48,16 @@ const MainHeader: React.FC = () => {
           {/* Actions */}
           <div className='flex items-center gap-3'>
             <ModeToggle />
-            <UserMenu />
+            {accessToken ? (
+              <UserMenu />
+            ) : (
+              <Link
+                to={RoutePaths.Login}
+                className='text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-500'
+              >
+                Đăng nhập
+              </Link>
+            )}
           </div>
         </div>
       </ContainerBox>
