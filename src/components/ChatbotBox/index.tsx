@@ -43,11 +43,21 @@ const ChatBotPopover = ({ documentId }: ChatBoxProps) => {
     if (currentDocument && currentDocument === documentId) {
       return;
     }
+    if (!socket) return;
+    socket.emit(SOCKET_EVENTS.EMIT.CLIENT_CLOSE_CHAT, { documentId: currentDocument });
     setIsThinking(false);
     setMessages([]);
     setIsChatting(false);
     setCurrentDocument(documentId);
-  }, [currentDocument, documentId, setCurrentDocument, setIsChatting, setIsThinking, setMessages]);
+  }, [
+    currentDocument,
+    documentId,
+    setCurrentDocument,
+    setIsChatting,
+    setIsThinking,
+    setMessages,
+    socket,
+  ]);
 
   const startNewChatContext = async () => {
     if (!documentId || !socket) return;

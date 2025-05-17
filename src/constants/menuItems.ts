@@ -85,8 +85,15 @@ export const ADMIN_MENU_ITEMS: MenuItem[] = [
   },
   {
     id: '7',
-    title: 'Quản lý giao dịch',
+    title: 'Quản lý liên hệ',
     icon: BiSolidUser,
+    path: RoutePaths.ManageContact,
+  },
+  {
+    id: '8',
+    title: 'Quản lý phản hồi',
+    icon: BiSolidUser,
+    path: RoutePaths.ManageFeedback,
   },
 ];
 

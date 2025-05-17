@@ -9,6 +9,8 @@ type DocumentState = {
   openModalDeleteDocument: boolean;
   openModalShowDocumentDetail: boolean;
   openModalShowSummaryDocument: boolean;
+  openModalApproveDocument: boolean;
+  openModalRejectDocument: boolean;
 
   // actions
   setListDocuments: (listDocuments: IDocument[]) => void;
@@ -20,6 +22,8 @@ type DocumentState = {
   setOpenModalDeleteDocument: (openModalDeleteDocument: boolean) => void;
   setOpenModalShowDocumentDetail: (openModalShowDocumentDetail: boolean) => void;
   setOpenModalShowSummaryDocument: (openModalShowSummaryDocument: boolean) => void;
+  setOpenModalApproveDocument: (openModalApproveDocument: boolean) => void;
+  setOpenModalRejectDocument: (openModalRejectDocument: boolean) => void;
 };
 
 const useDocumentStore = create<DocumentState>((set) => ({
@@ -30,6 +34,8 @@ const useDocumentStore = create<DocumentState>((set) => ({
   openModalDeleteDocument: false,
   openModalShowDocumentDetail: false,
   openModalShowSummaryDocument: false,
+  openModalApproveDocument: false,
+  openModalRejectDocument: false,
 
   // actions
   setListDocuments: (listDocuments: IDocument[]) => set(() => ({ listDocuments })),
@@ -59,6 +65,10 @@ const useDocumentStore = create<DocumentState>((set) => ({
     set(() => ({ openModalShowDocumentDetail })),
   setOpenModalShowSummaryDocument: (openModalShowSummaryDocument: boolean) =>
     set(() => ({ openModalShowSummaryDocument })),
+  setOpenModalApproveDocument: (openModalApproveDocument: boolean) =>
+    set(() => ({ openModalApproveDocument })),
+  setOpenModalRejectDocument: (openModalRejectDocument: boolean) =>
+    set(() => ({ openModalRejectDocument })),
 }));
 
 export default useDocumentStore;

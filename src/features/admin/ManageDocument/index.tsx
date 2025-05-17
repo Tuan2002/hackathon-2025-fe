@@ -3,7 +3,7 @@
 import CardScroll from '@/components/customs/CardScroll';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Download, Edit, Eye, Heart, MoreVertical, Plus, Search, Trash } from 'lucide-react';
+import { Download, Edit, Eye, Heart, MoreVertical, Plus, Trash } from 'lucide-react';
 import CreateAndUpdateDocumentModal from './CreateAndUpdateDocumentModal';
 import useDocumentStore from '@/stores/documentStore';
 import type { IDocument } from '@/types/documentType';
@@ -25,18 +25,27 @@ import TableCustom from '@/components/customs/TableCustom';
 import ShowDocumentDetailModal from '../../../components/ShowDocumentDetailModal';
 import ModalConfirm from '@/components/customs/ModalConfirm';
 import { toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import RoutePaths from '@/routes/routePaths';
 import {
   DOCUMENT_STATUS_COLORS,
   DOCUMENT_STATUS_LABELS,
   DOCUMENT_STATUSES,
+  DOCUMENT_STATUS_OPTIONS,
 } from '@/constants/documentStatuses';
+import RejectDocumentModal from './RejectDocumentModal';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const ManageDocument = () => {
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const {
     listDocuments,
     currentDocument,
@@ -49,6 +58,11 @@ const ManageDocument = () => {
     deleteDocument,
     setOpenModalDeleteDocument,
     setOpenModalCreateAndUpdateDocument,
+    openModalRejectDocument,
+    setOpenModalRejectDocument,
+    openModalApproveDocument,
+    updateDocument,
+    setOpenModalApproveDocument,
   } = useDocumentStore();
 
   const { setListAuthors } = useAuthorStore();
@@ -87,6 +101,26 @@ const ManageDocument = () => {
     setCurrentDocument(null);
   };
 
+  const handleOpenModalApproveDocument = (document: IDocument) => {
+    setCurrentDocument(document);
+    setOpenModalApproveDocument(true);
+  };
+
+  const handleCloseModalApproveDocument = () => {
+    setOpenModalApproveDocument(false);
+    setCurrentDocument(null);
+  };
+
+  const handleOpenModalRejectDocument = (document: IDocument) => {
+    setCurrentDocument(document);
+    setOpenModalRejectDocument(true);
+  };
+
+  const handleCloseModalRejectDocument = () => {
+    setOpenModalRejectDocument(false);
+    setCurrentDocument(null);
+  };
+
   const handleConfirmDeleteDocument = async () => {
     if (!currentDocument) return;
     setIsLoading(true);
@@ -101,6 +135,44 @@ const ManageDocument = () => {
       toast.error(error?.message || 'Xoá tài liệu thất bại');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleConfirmApproveDocument = async () => {
+    if (!currentDocument) return;
+    setIsLoading(true);
+    try {
+      const response = await DocumentService.approveDocument(currentDocument?.id as string);
+      if (response && response.statusCode === 200) {
+        updateDocument({
+          ...currentDocument,
+          status: DOCUMENT_STATUSES.APPROVED,
+        });
+        handleCloseModalApproveDocument();
+        toast.success('Duyệt tài liệu thành công');
+      }
+    } catch (error: any) {
+      toast.error(error?.message || 'Duyệt tài liệu thất bại');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleConfirmRejectDocument = async (reason: string) => {
+    if (!currentDocument?.id) return;
+    try {
+      const response = await DocumentService.rejectDocument(currentDocument?.id, reason);
+      if (response && response.statusCode === 200) {
+        updateDocument({
+          ...currentDocument,
+          status: DOCUMENT_STATUSES.REJECTED,
+          rejectedReason: reason,
+        });
+        handleCloseModalRejectDocument();
+        toast.success('Từ chối tài liệu thành công');
+      }
+    } catch (error: any) {
+      toast.error(error?.message || 'Từ chối tài liệu thất bại');
     }
   };
 
@@ -252,13 +324,27 @@ const ManageDocument = () => {
                 <Eye className='w-4 h-4 text-blue-500' /> Xem chi tiết
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() =>
-                  navigate(RoutePaths.UpdateDocument.replace(':documentId', document.id))
-                }
+                onClick={() => handleOpenModalCreateAndUpdateDocument(document)}
                 className='flex items-center gap-2'
               >
                 <Edit className='w-4 h-4 text-green-500' /> Chỉnh sửa
               </DropdownMenuItem>
+              {document.status === DOCUMENT_STATUSES.PENDING && (
+                <>
+                  <DropdownMenuItem
+                    onClick={() => handleOpenModalApproveDocument(document)}
+                    className='flex items-center gap-2'
+                  >
+                    <Edit className='w-4 h-4 text-green-500' /> Duyệt tài liệu
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleOpenModalRejectDocument(document)}
+                    className='flex items-center gap-2'
+                  >
+                    <Edit className='w-4 h-4 text-green-500' /> Từ chối tài liệu
+                  </DropdownMenuItem>
+                </>
+              )}
               <DropdownMenuItem
                 onClick={() => handleOpenModalDeleteDocument(document)}
                 className='flex items-center gap-2'
@@ -272,9 +358,13 @@ const ManageDocument = () => {
     ],
     [],
   );
-  const filteredDocuments = listDocuments?.filter((a) =>
-    a.name?.toLowerCase()?.includes(search?.toLowerCase()),
-  );
+  const filteredDocuments = useMemo(() => {
+    return listDocuments?.filter((doc) => {
+      const matchesSearch = doc.name?.toLowerCase().includes(search.toLowerCase());
+      const matchesStatus = statusFilter ? doc.status === statusFilter : true;
+      return matchesSearch && matchesStatus;
+    });
+  }, [listDocuments, search, statusFilter]);
 
   useEffect(() => {
     fetchAuthors();
@@ -286,16 +376,30 @@ const ManageDocument = () => {
   return (
     <CardScroll title='Danh sách tài liệu'>
       <div className='flex items-center justify-between mb-4 gap-2 flex-wrap'>
-        <div className='flex items-center gap-2'>
+        <div className='flex gap-4 mb-4'>
           <Input
-            placeholder='Tìm kiếm tài liệu...'
+            placeholder='Tìm theo tên tài liệu...'
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className='w-64'
+            className='max-w-xs'
           />
-          <Button variant='outline' size='icon'>
-            <Search className='w-4 h-4' />
-          </Button>
+
+          <Select
+            value={statusFilter ?? 'all'}
+            onValueChange={(val) => setStatusFilter(val === 'all' ? null : val)}
+          >
+            <SelectTrigger className='w-48'>
+              <SelectValue placeholder='Chọn trạng thái' />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value='all'>Tất cả trạng thái</SelectItem>
+              {DOCUMENT_STATUS_OPTIONS.map((opt) => (
+                <SelectItem key={opt.value} value={opt.value}>
+                  {opt.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <Button onClick={() => handleOpenModalCreateAndUpdateDocument(null)}>
           <Plus className='w-4 h-4 mr-2' /> Thêm mới
@@ -320,6 +424,20 @@ const ManageDocument = () => {
         open={openModalDeleteDocument}
         onClose={handleCloseModalDeleteDocument}
         isConfirming={isLoading}
+      />
+      <ModalConfirm
+        title='Duyệt tài liệu'
+        description='Bạn có chắc chắn muốn duyệt cho tài liệu này không?'
+        onConfirm={handleConfirmApproveDocument}
+        type='confirm'
+        open={openModalApproveDocument}
+        onClose={handleCloseModalApproveDocument}
+        isConfirming={isLoading}
+      />
+      <RejectDocumentModal
+        open={openModalRejectDocument}
+        onClose={handleCloseModalRejectDocument}
+        onReject={handleConfirmRejectDocument}
       />
     </CardScroll>
   );

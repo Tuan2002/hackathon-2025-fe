@@ -28,6 +28,8 @@ const RoutePaths = {
   ManageAuthor: '/admin/manage-author',
   ManageDocument: '/admin/manage-document',
   ManageSeedData: '/admin/manage-seed-data',
+  ManageFeedback: '/admin/manage-feedback',
+  ManageContact: '/admin/manage-contact',
 
   // User Routes
   MyDocuments: '/my-documents',

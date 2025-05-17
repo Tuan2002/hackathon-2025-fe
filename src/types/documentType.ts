@@ -30,6 +30,7 @@ export interface IDocument {
   updatedAt: string;
   isFavorite: boolean;
   favoriteCount: number;
+  rejectedReason: string | null;
 }
 
 export interface IUploadDocumentResponse {

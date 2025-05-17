@@ -14,12 +14,12 @@ const MainHeader: React.FC = () => {
       <ContainerBox>
         <div className='h-full flex items-center justify-between px-4'>
           {/* Logo & Menu */}
-          <div className='flex items-center gap-6'>
+          <div className='flex items-center gap-6 h-[64px]'>
             <Link
               to={RoutePaths.Home}
-              className='text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white text-center hover:text-gray-900 dark:hover:text-white'
+              className=' text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white text-center hover:text-gray-900 dark:hover:text-white leading-4'
             >
-              HACKATHON <br className='hidden sm:block' /> 2025
+              SENSE <br className='hidden sm:block' /> <span className='text-sm'>LIBRARY</span>
             </Link>
 
             {/* Divider */}

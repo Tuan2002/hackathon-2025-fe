@@ -134,10 +134,13 @@ const approveDocument = async (id: string): Promise<IAppResposeBase<IDocument>> 
   }
 };
 
-const rejectDocument = async (id: string): Promise<IAppResposeBase<IDocument>> => {
+const rejectDocument = async (id: string, reason: string): Promise<IAppResposeBase<IDocument>> => {
   try {
     const response: IAppResposeBase<IDocument> = await http.patch(
       `/v1/documents/reject-document/${id}`,
+      {
+        reason,
+      },
     );
     return response;
   } catch (error: any) {

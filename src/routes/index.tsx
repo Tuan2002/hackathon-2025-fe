@@ -29,6 +29,8 @@ import UploadDocumentPage from '@/pages/my-document/upload-document-page';
 import PendingDocumentPage from '@/pages/my-document/pending-document-page';
 import SaveDocumentPage from '@/pages/my-document/saved-document-page';
 import DocumentDetailPage from '@/pages/document/document-detail-page';
+import ManageFeedbackPage from '@/pages/admin/manage-feedback/manage-feedback-page';
+import ManageContactPage from '@/pages/admin/manage-contact/manage-contact-page';
 
 const AppRoute = () => {
   return (
@@ -45,6 +47,8 @@ const AppRoute = () => {
               <Route path={RoutePaths.ManageAuthor} element={<ManageAuthorPage />} />
               <Route path={RoutePaths.ManageDocument} element={<ManageDocumentPage />} />
               <Route path={RoutePaths.ManageSeedData} element={<ManageSeedDataPage />} />
+              <Route path={RoutePaths.ManageFeedback} element={<ManageFeedbackPage />} />
+              <Route path={RoutePaths.ManageContact} element={<ManageContactPage />} />
             </Route>
           </Route>
 

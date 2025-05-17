@@ -1,14 +1,9 @@
 import ContainerBox from '@/components/customs/ContainerBox';
 import HeaderBox from '@/components/customs/HeaderBox';
 import { BookOpen, Star, Users, Search } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import FeedbackForm from './FeedbackForm';
+import ContactForm from './ContactForm';
 function About() {
-  const [rating, setRating] = useState(0);
-
   return (
     <ContainerBox>
       <div className='mt-10 space-y-16'>
@@ -108,40 +103,10 @@ function About() {
 
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 my-10'>
           {/* Form Liên hệ */}
-          <div className='flex justify-center'>
-            <Card className='shadow-lg max-w-md w-full'>
-              <HeaderBox title='Liên hệ' />
-              <CardContent className='space-y-4'>
-                <Input placeholder='Họ và tên' required />
-                <Input type='email' placeholder='Email' required />
-                <Input type='tel' placeholder='Số điện thoại' required />
-                <Textarea placeholder='Thông tin phản hồi' rows={4} required />
-                <Button className='w-full bg-green-500 hover:bg-green-600'>Gửi phản hồi</Button>
-              </CardContent>
-            </Card>
-          </div>
+          <FeedbackForm />
 
           {/* Form Đánh giá */}
-          <div className='flex justify-center'>
-            <Card className='shadow-lg max-w-md w-full'>
-              <HeaderBox title='Đánh giá về chúng tôi' />
-              <CardContent className='space-y-4 flex flex-col items-center'>
-                <div className='flex gap-1'>
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star
-                      key={i}
-                      className={`w-6 h-6 cursor-pointer ${
-                        i <= rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-400'
-                      }`}
-                      onClick={() => setRating(i)}
-                    />
-                  ))}
-                </div>
-                <Textarea placeholder='Hãy để lại cảm nhận của bạn...' rows={4} />
-                <Button className='w-full bg-green-500 hover:bg-green-600'>Đánh giá</Button>
-              </CardContent>
-            </Card>
-          </div>
+          <ContactForm />
         </div>
       </div>
     </ContainerBox>
