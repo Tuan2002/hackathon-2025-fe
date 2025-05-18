@@ -10,6 +10,7 @@ type UserState = {
   currentUser: IUser | null;
   openModalDeleteUser: boolean;
   openModalLockUser: boolean;
+  openModalShowPointHistory: boolean;
 
   // actions
   setListUsers: (listUsers: IUser[]) => void;
@@ -21,6 +22,7 @@ type UserState = {
   setOpenModalDeleteUser: (openModalDeleteUser: boolean) => void;
   setOpenModalLockUser: (openModalLockUser: boolean) => void;
   setListPointHistory: (listPointHistory: IUserPoint[]) => void;
+  setOpenModalShowPointHistory: (openModalShowPointHistory: boolean) => void;
 };
 
 const useUserStore = create<UserState>((set) => ({
@@ -31,6 +33,7 @@ const useUserStore = create<UserState>((set) => ({
   openModalDeleteUser: false,
   openModalLockUser: false,
   listPointHistory: [],
+  openModalShowPointHistory: false,
 
   // actions
   setListUsers: (listUsers: IUser[]) => set(() => ({ listUsers })),
@@ -57,6 +60,8 @@ const useUserStore = create<UserState>((set) => ({
   setOpenModalDeleteUser: (openModalDeleteUser: boolean) => set(() => ({ openModalDeleteUser })),
   setOpenModalLockUser: (openModalLockUser: boolean) => set(() => ({ openModalLockUser })),
   setListPointHistory: (listPointHistory: IUserPoint[]) => set(() => ({ listPointHistory })),
+  setOpenModalShowPointHistory: (openModalShowPointHistory: boolean) =>
+    set(() => ({ openModalShowPointHistory })),
 }));
 
 export default useUserStore;

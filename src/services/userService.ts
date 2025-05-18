@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { IUser } from '@/types/accountType';
 import type { IAppResposeBase } from '@/types/baseType';
-import type { ICreateUserRequest, IUpdateUserRequest, IUserPoint } from '@/types/userType';
+import type {
+  ICheckoutPaymentRequest,
+  ICheckoutPaymentResponse,
+  IConfirmPaymentRequest,
+  ICreateUserRequest,
+  IUpdateUserRequest,
+  IUserPoint,
+} from '@/types/userType';
 import http from '@/utils/customAxios';
 
 const getUsers = async (): Promise<IAppResposeBase<IUser[]>> => {
@@ -92,6 +99,34 @@ const getUserPointHistory = async (userId: string): Promise<IAppResposeBase<IUse
   }
 };
 
+const checkoutPayment = async (
+  data: ICheckoutPaymentRequest,
+): Promise<IAppResposeBase<ICheckoutPaymentResponse>> => {
+  try {
+    const response: IAppResposeBase<ICheckoutPaymentResponse> = await http.post(
+      '/v1/payments/checkout-payment',
+      data,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const confirmPayment = async (
+  data: IConfirmPaymentRequest,
+): Promise<IAppResposeBase<ICheckoutPaymentResponse>> => {
+  try {
+    const response: IAppResposeBase<ICheckoutPaymentResponse> = await http.post(
+      '/v1/payments/confirm-payment',
+      data,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
 const userService = {
   getUsers,
   getUser,
@@ -102,5 +137,7 @@ const userService = {
   deleteUser,
   getMyPointHistory,
   getUserPointHistory,
+  checkoutPayment,
+  confirmPayment,
 };
 export default userService;

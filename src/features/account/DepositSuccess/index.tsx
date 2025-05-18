@@ -1,13 +1,40 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import AccountLayout from '@/layouts/AccountLayout';
 import RoutePaths from '@/routes/routePaths';
+import userService from '@/services/userService';
+import useAccountStore from '@/stores/accountStore';
 import { CheckCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const PaymentSuccess = () => {
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const code = query.get('code');
+  const id = query.get('id');
+  const cancel = query.get('cancel');
+  const status = query.get('status');
+  const orderCode = query.get('orderCode');
+
+  useEffect(() => {
+    const confirmPayment = async () => {
+      try {
+        await userService.confirmPayment({
+          orderCode: +(orderCode || 0),
+          paymentId: id || '',
+        });
+      } catch (error: any) {
+        toast.error(error.message || 'Có lỗi xảy ra, vui lòng thử lại sau');
+      }
+    };
+    confirmPayment();
+  }, [code, id, cancel, status, orderCode]);
+
   return (
     <AccountLayout>
       <Card className='p-5 h-[calc(100vh-120px)] shadow-lg space-y-8 overflow-x-auto'>

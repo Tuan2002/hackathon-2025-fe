@@ -21,8 +21,8 @@ const RoutePaths = {
   AccountChangePassword: '/account/change-password',
   AccountHistoryTransaction: '/history-transaction',
   AccountDepositPoint: '/deposit',
-  AccountDepositSuccess: '/deposit-success',
-  AccountDepositError: '/deposit-error',
+  AccountDepositSuccess: '/deposit/success',
+  AccountDepositError: '/deposit/error',
 
   // Admin Routes
   AdminDashboard: '/admin/dashboard',

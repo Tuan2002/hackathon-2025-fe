@@ -50,3 +50,18 @@ export interface IUserPoint {
   userName: string;
   avatar: string;
 }
+
+export interface ICheckoutPaymentRequest {
+  amount: number;
+}
+
+export interface IConfirmPaymentRequest {
+  orderCode: number;
+  paymentId: string;
+}
+
+export interface ICheckoutPaymentResponse {
+  paymentUrl: string;
+  orderCode: string;
+  paymentId: string;
+}

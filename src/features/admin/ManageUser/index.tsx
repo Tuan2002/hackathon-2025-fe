@@ -19,6 +19,7 @@ import { USER_ROLES, USER_ROLES_LABELS } from '@/constants/userRoles';
 import useUserStore from '@/stores/userStore';
 import userService from '@/services/userService';
 import { toast } from 'react-toastify';
+import ShowPointHistoryModal from './ShowPointHistoryModal';
 
 const UserManagement = () => {
   const [search, setSearch] = useState('');
@@ -35,6 +36,8 @@ const UserManagement = () => {
     deleteUser,
     setOpenModalLockUser,
     updateUser,
+    openModalShowPointHistory,
+    setOpenModalShowPointHistory,
   } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -58,6 +61,15 @@ const UserManagement = () => {
 
   const handleCloseModalCreateAndUpdate = () => {
     setOpenModalCreateAndUpdateUser(false);
+    setCurrentUser(null);
+  };
+
+  const handleOpenModalShowPointHistory = (user: IUser) => {
+    setCurrentUser(user);
+    setOpenModalShowPointHistory(true);
+  };
+  const handleCloseModalShowPointHistory = () => {
+    setOpenModalShowPointHistory(false);
     setCurrentUser(null);
   };
 
@@ -224,6 +236,13 @@ const UserManagement = () => {
                 <span>Xem chi tiết</span>
               </DropdownMenuItem>
               <DropdownMenuItem
+                onClick={() => handleOpenModalShowPointHistory(item)}
+                className='flex items-center gap-2'
+              >
+                <Eye className='w-4 h-4 text-blue-500' />
+                <span>Thống kê lịch sử giao dịch</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
                 onClick={() => handleOpenModal(item)}
                 className='flex items-center gap-2'
               >
@@ -301,6 +320,12 @@ const UserManagement = () => {
         open={openModalCreateAndUpdateUser}
         onClose={handleCloseModalCreateAndUpdate}
         currentUser={currentUser}
+      />
+      <ShowPointHistoryModal
+        open={openModalShowPointHistory}
+        onClose={handleCloseModalShowPointHistory}
+        isLoading={isLoading}
+        currentUser={currentUser as IUser} // Ensure currentUser is of type IUser
       />
     </CardScroll>
   );

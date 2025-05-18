@@ -5,18 +5,27 @@ import AccountLayout from '@/layouts/AccountLayout';
 import { Button } from '@/components/ui/button';
 import { toast } from 'react-toastify';
 import React, { useState } from 'react';
+import userService from '@/services/userService';
 
 const DepositPoint = () => {
   const pointOptions = [1, 5, 10, 20, 30, 50, 100, 200];
   const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
 
-  const handleDeposit = () => {
+  const handleDeposit = async () => {
     if (!selectedPoint) return;
     const money = selectedPoint * 1000;
-    // Giả lập API nạp
-    toast.success(
-      `🎉 Đã tạo yêu cầu nạp ${selectedPoint} điểm (${money.toLocaleString()} VNĐ) qua VNPay!`,
-    );
+    try {
+      const response = await userService.checkoutPayment({
+        amount: money,
+      });
+      const { paymentUrl } = response.data;
+      if (paymentUrl) {
+        window.location.href = paymentUrl;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.message || 'Có lỗi xảy ra, vui lòng thử lại sau');
+    }
   };
 
   return (
