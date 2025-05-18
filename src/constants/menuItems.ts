@@ -13,7 +13,7 @@ import {
   BiWrench,
 } from 'react-icons/bi';
 
-interface MenuItem {
+export interface MenuItem {
   id: string;
   title: string;
   icon?: IconType;
@@ -59,6 +59,12 @@ export const ADMIN_MENU_ITEMS: MenuItem[] = [
     title: 'Quản lý người dùng',
     icon: BiUser,
     path: RoutePaths.ManageUser,
+  },
+  {
+    id: '10',
+    title: 'Quản lý menu',
+    icon: BiCabinet,
+    path: RoutePaths.ManageMenu,
   },
   {
     id: '3',

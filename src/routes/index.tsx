@@ -35,6 +35,7 @@ import HistoryTransactionPage from '@/pages/account/history-transaction-page';
 import DepositPointPage from '@/pages/account/deposit-point-page';
 import DepositSuccessPage from '@/pages/account/deposit-success-page';
 import DepositErrorPage from '@/pages/account/deposit-error-page';
+import ManageMenuPage from '@/pages/admin/manage-menu/manage-menu';
 
 const AppRoute = () => {
   return (
@@ -53,6 +54,7 @@ const AppRoute = () => {
               <Route path={RoutePaths.ManageSeedData} element={<ManageSeedDataPage />} />
               <Route path={RoutePaths.ManageFeedback} element={<ManageFeedbackPage />} />
               <Route path={RoutePaths.ManageContact} element={<ManageContactPage />} />
+              <Route path={RoutePaths.ManageMenu} element={<ManageMenuPage />} />
             </Route>
           </Route>
 

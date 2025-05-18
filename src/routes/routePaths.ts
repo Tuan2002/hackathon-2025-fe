@@ -34,6 +34,7 @@ const RoutePaths = {
   ManageSeedData: '/admin/manage-seed-data',
   ManageFeedback: '/admin/manage-feedback',
   ManageContact: '/admin/manage-contact',
+  ManageMenu: '/admin/manage-menu',
 
   // User Routes
   MyDocuments: '/my-documents',
