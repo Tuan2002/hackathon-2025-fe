@@ -19,6 +19,7 @@ import CommentBox from './CommentBox';
 import SimilarDocument from './SimilarDocument';
 import ChatBotPopover from '../../../components/ChatbotBox';
 import DownloadConfirmModal from './ModalDownloadDocument';
+import FeedbackForm from './FeedbackForm';
 
 const DocumentDetail = () => {
   const { documentSlug, categorySlug } = useParams<{
@@ -144,6 +145,9 @@ const DocumentDetail = () => {
             onDownload={handleOpenModalDownloadDocument}
             currentDocument={currentDocument}
           />
+
+          {/* Đánh giá tài liệu */}
+          <FeedbackForm />
 
           {/* Bình luận */}
           <CommentBox documentId={currentDocument?.id} />

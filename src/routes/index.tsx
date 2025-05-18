@@ -33,6 +33,8 @@ import ManageFeedbackPage from '@/pages/admin/manage-feedback/manage-feedback-pa
 import ManageContactPage from '@/pages/admin/manage-contact/manage-contact-page';
 import HistoryTransactionPage from '@/pages/account/history-transaction-page';
 import DepositPointPage from '@/pages/account/deposit-point-page';
+import DepositSuccessPage from '@/pages/account/deposit-success-page';
+import DepositErrorPage from '@/pages/account/deposit-error-page';
 
 const AppRoute = () => {
   return (
@@ -64,6 +66,8 @@ const AppRoute = () => {
               element={<HistoryTransactionPage />}
             />
             <Route path={RoutePaths.AccountDepositPoint} element={<DepositPointPage />} />
+            <Route path={RoutePaths.AccountDepositSuccess} element={<DepositSuccessPage />} />
+            <Route path={RoutePaths.AccountDepositError} element={<DepositErrorPage />} />
             <Route path={RoutePaths.MyDocuments} element={<MyDocumentPage />} />
             <Route path={RoutePaths.MyDownloadDocuments} element={<DownloadDocumentPage />} />
             <Route path={RoutePaths.UploadDocument} element={<UploadDocumentPage />} />

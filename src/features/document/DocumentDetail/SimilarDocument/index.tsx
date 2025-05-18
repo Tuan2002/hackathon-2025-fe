@@ -49,7 +49,10 @@ const SimilarDocument = ({ categorySlug, currentDocumentId }: SimilarDocumentPro
   }, [categorySlug, setListDocuments, accessToken, currentDocumentId]);
   return (
     <div>
-      <HeaderBox title='Tài liệu tương tự' />
+      <HeaderBox
+        title='Tài liệu tương tự'
+        description='Các tài liệu tương tự bạn có thể tham khảo thêm'
+      />
       {isLoading ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
           {Array.from({ length: 6 }).map((_, index) => (

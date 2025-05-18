@@ -21,7 +21,7 @@ interface DownloadConfirmModalProps {
 
 const DownloadConfirmModal = ({ open, onClose, currentDocument }: DownloadConfirmModalProps) => {
   const [isDownloading, setIsDownloading] = useState(false);
-  const { currentUser } = useAccountStore();
+  const { currentUser, setCurrentUser } = useAccountStore();
 
   const handleDownloadDocument = async () => {
     if (!currentDocument?.id) return;
@@ -45,6 +45,10 @@ const DownloadConfirmModal = ({ open, onClose, currentDocument }: DownloadConfir
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        setCurrentUser({
+          ...currentUser,
+          point: currentUser.point - currentDocument.point,
+        });
         onClose();
         toast.success('🎉 Tải tài liệu thành công!');
       } else {

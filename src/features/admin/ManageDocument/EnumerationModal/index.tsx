@@ -6,6 +6,7 @@ import { useState } from 'react';
 import FavoriteEnumerationTab from './FavoriteEnumeration';
 import DownloadEnumerationTab from './DownloadEnumeration';
 import useDocumentStore from '@/stores/documentStore';
+import CommentEnumerationTab from './CommentEnumeration';
 
 interface Comment {
   id: string;
@@ -76,18 +77,7 @@ const EnumerationModal = ({ open, onClose }: EnumerationModalProps) => {
           </TabsContent>
 
           <TabsContent value='comments'>
-            <div className='space-y-2 max-h-80 overflow-y-auto'>
-              {comments.length > 0 ? (
-                comments.map((comment) => (
-                  <div key={comment.id} className='p-3 border rounded-lg'>
-                    <p className='font-medium'>{comment.user}</p>
-                    <p className='text-gray-700'>{comment.content}</p>
-                  </div>
-                ))
-              ) : (
-                <p className='text-gray-500 italic'>Chưa có bình luận nào.</p>
-              )}
-            </div>
+            <CommentEnumerationTab documentId={currentDocument?.id} />
           </TabsContent>
         </Tabs>
       </div>
