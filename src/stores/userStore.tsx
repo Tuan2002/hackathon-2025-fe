@@ -1,13 +1,16 @@
 import type { IUser } from '@/types/accountType';
+import type { IUserPoint } from '@/types/userType';
 import { create } from 'zustand';
 
 type UserState = {
   // state
   listUsers: IUser[];
+  listPointHistory: IUserPoint[];
   openModalCreateAndUpdateUser: boolean;
   currentUser: IUser | null;
   openModalDeleteUser: boolean;
   openModalLockUser: boolean;
+
   // actions
   setListUsers: (listUsers: IUser[]) => void;
   deleteUser: (userId: string) => void;
@@ -17,6 +20,7 @@ type UserState = {
   setCurrentUser: (currentUser: IUser | null) => void;
   setOpenModalDeleteUser: (openModalDeleteUser: boolean) => void;
   setOpenModalLockUser: (openModalLockUser: boolean) => void;
+  setListPointHistory: (listPointHistory: IUserPoint[]) => void;
 };
 
 const useUserStore = create<UserState>((set) => ({
@@ -26,6 +30,7 @@ const useUserStore = create<UserState>((set) => ({
   currentUser: null,
   openModalDeleteUser: false,
   openModalLockUser: false,
+  listPointHistory: [],
 
   // actions
   setListUsers: (listUsers: IUser[]) => set(() => ({ listUsers })),
@@ -51,6 +56,7 @@ const useUserStore = create<UserState>((set) => ({
   setCurrentUser: (currentUser: IUser | null) => set(() => ({ currentUser })),
   setOpenModalDeleteUser: (openModalDeleteUser: boolean) => set(() => ({ openModalDeleteUser })),
   setOpenModalLockUser: (openModalLockUser: boolean) => set(() => ({ openModalLockUser })),
+  setListPointHistory: (listPointHistory: IUserPoint[]) => set(() => ({ listPointHistory })),
 }));
 
 export default useUserStore;

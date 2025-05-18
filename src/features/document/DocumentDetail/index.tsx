@@ -18,6 +18,7 @@ import getAccessToken from '@/utils/getAccessToken';
 import CommentBox from './CommentBox';
 import SimilarDocument from './SimilarDocument';
 import ChatBotPopover from '../../../components/ChatbotBox';
+import DownloadConfirmModal from './ModalDownloadDocument';
 
 const DocumentDetail = () => {
   const { documentSlug, categorySlug } = useParams<{
@@ -27,7 +28,6 @@ const DocumentDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isLoadingFavorite, setIsLoadingFavorite] = useState<boolean>(false);
-  const [isDownloading, setIsDownloading] = useState<boolean>(false);
   const accessToken = getAccessToken();
 
   const {
@@ -35,11 +35,21 @@ const DocumentDetail = () => {
     setCurrentDocument,
     openModalShowSummaryDocument,
     setOpenModalShowSummaryDocument,
+    openModalDownloadDocument,
+    setOpenModalDownloadDocument,
   } = useDocumentStore();
   const { listCategories } = useCategoryStore();
 
   const handleCloseModalSummary = () => {
     setOpenModalShowSummaryDocument(false);
+  };
+
+  const handleOpenModalDownloadDocument = () => {
+    setOpenModalDownloadDocument(true);
+    console.log('open modal download');
+  };
+  const handleCloseModalDownloadDocument = () => {
+    setOpenModalDownloadDocument(false);
   };
 
   const handleToggleFavoriteDocument = async () => {
@@ -57,31 +67,6 @@ const DocumentDetail = () => {
       toast.error(error?.message || 'Có lỗi xảy ra trong quá trình tải tài liệu');
     } finally {
       setTimeout(() => setIsLoadingFavorite(false), 2000);
-    }
-  };
-
-  const handleDownloadDocument = async () => {
-    if (!currentDocument?.id) return;
-    setIsDownloading(true);
-    try {
-      const response = await DocumentService.getDownloadDocumentUrl(currentDocument?.id || '');
-      if (response.statusCode === 200 || response.statusCode === 201) {
-        const downloadUrl = response.data.url;
-        const fileName = currentDocument?.name || 'document.pdf';
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.setAttribute('download', fileName);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        toast.success('Tải tài liệu thành công');
-      } else {
-        toast.error(response?.message || 'Có lỗi xảy ra trong quá trình tải tài liệu');
-      }
-    } catch (error: any) {
-      toast.error(error?.message || 'Có lỗi xảy ra trong quá trình tải tài liệu');
-    } finally {
-      setTimeout(() => setIsDownloading(false), 2000);
     }
   };
 
@@ -132,7 +117,6 @@ const DocumentDetail = () => {
       },
     ];
   }, [documentSlug, categorySlug, currentDocument, listCategories]);
-
   return (
     <DocumentLayout>
       {!isLoading ? (
@@ -140,8 +124,7 @@ const DocumentDetail = () => {
           <BreadcrumbCustom items={breadcrumItems} />
 
           <InfomationBox
-            isDownloading={isDownloading}
-            onDownload={handleDownloadDocument}
+            onDownload={handleOpenModalDownloadDocument}
             isFavorite={isFavorite}
             onFavoriteToggle={handleToggleFavoriteDocument}
             currentDocument={currentDocument}
@@ -158,8 +141,7 @@ const DocumentDetail = () => {
 
           {/* PDF Preview */}
           <PreviewBox
-            isDownloading={isDownloading}
-            onDownload={handleDownloadDocument}
+            onDownload={handleOpenModalDownloadDocument}
             currentDocument={currentDocument}
           />
 
@@ -180,6 +162,13 @@ const DocumentDetail = () => {
             documentId={currentDocument?.id}
             open={openModalShowSummaryDocument}
             onClose={handleCloseModalSummary}
+          />
+
+          {/* Modal download */}
+          <DownloadConfirmModal
+            open={openModalDownloadDocument}
+            onClose={handleCloseModalDownloadDocument}
+            currentDocument={currentDocument}
           />
         </>
       ) : (

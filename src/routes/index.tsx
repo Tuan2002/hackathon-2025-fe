@@ -31,6 +31,8 @@ import SaveDocumentPage from '@/pages/my-document/saved-document-page';
 import DocumentDetailPage from '@/pages/document/document-detail-page';
 import ManageFeedbackPage from '@/pages/admin/manage-feedback/manage-feedback-page';
 import ManageContactPage from '@/pages/admin/manage-contact/manage-contact-page';
+import HistoryTransactionPage from '@/pages/account/history-transaction-page';
+import DepositPointPage from '@/pages/account/deposit-point-page';
 
 const AppRoute = () => {
   return (
@@ -57,6 +59,11 @@ const AppRoute = () => {
             <Route path={RoutePaths.AccountProfile} element={<ProfilePage />} />
             <Route path={RoutePaths.AccountSettings} element={<SetupPage />} />
             <Route path={RoutePaths.AccountChangePassword} element={<ChangePasswordPage />} />
+            <Route
+              path={RoutePaths.AccountHistoryTransaction}
+              element={<HistoryTransactionPage />}
+            />
+            <Route path={RoutePaths.AccountDepositPoint} element={<DepositPointPage />} />
             <Route path={RoutePaths.MyDocuments} element={<MyDocumentPage />} />
             <Route path={RoutePaths.MyDownloadDocuments} element={<DownloadDocumentPage />} />
             <Route path={RoutePaths.UploadDocument} element={<UploadDocumentPage />} />

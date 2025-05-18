@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card';
 import RoutePaths from '@/routes/routePaths';
 import useAccountStore from '@/stores/accountStore';
 import { useNavigate } from 'react-router-dom';
+import { BsCoin } from 'react-icons/bs';
 
 interface AccountProfileProps {
   children: React.ReactNode;
@@ -29,6 +30,10 @@ export default function AccountLayout({ children }: AccountProfileProps) {
                 {currentUser?.firstName} {currentUser?.lastName}
               </p>
               <p className='text-sm text-gray-500'>{currentUser?.userName}</p>
+              <p className='text-xl flex items-center justify-center gap-2 font-bold text-purple-600'>
+                <span>{currentUser?.point ?? 0}</span>
+                <BsCoin className='inline-block mr-1' />
+              </p>
             </div>
           </Card>
 
@@ -40,12 +45,20 @@ export default function AccountLayout({ children }: AccountProfileProps) {
             >
               Thông tin tài khoản
             </Button>
+
             <Button
               onClick={() => navigate(RoutePaths.AccountChangePassword)}
               variant='outline'
               className='w-full justify-start bg-green-50 text-green-600'
             >
               Đổi mật khẩu
+            </Button>
+            <Button
+              onClick={() => navigate(RoutePaths.AccountHistoryTransaction)}
+              variant='outline'
+              className='w-full justify-start bg-red-50 text-red-600'
+            >
+              Lịch sử giao dịch
             </Button>
             <Button
               onClick={() => navigate(RoutePaths.AccountSettings)}
@@ -55,7 +68,7 @@ export default function AccountLayout({ children }: AccountProfileProps) {
               Cài đặt tài khoản
             </Button>
             <Button
-              onClick={() => navigate(RoutePaths.MyDocuments)} // Thêm route này vào routePaths.ts nhé
+              onClick={() => navigate(RoutePaths.MyDocuments)}
               variant='outline'
               className='w-full justify-start bg-yellow-50 text-yellow-600'
             >

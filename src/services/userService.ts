@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { IUser } from '@/types/accountType';
 import type { IAppResposeBase } from '@/types/baseType';
-import type { ICreateUserRequest, IUpdateUserRequest } from '@/types/userType';
+import type { ICreateUserRequest, IUpdateUserRequest, IUserPoint } from '@/types/userType';
 import http from '@/utils/customAxios';
 
 const getUsers = async (): Promise<IAppResposeBase<IUser[]>> => {
@@ -73,6 +73,25 @@ const deleteUser = async (userId: string): Promise<IAppResposeBase<IUser>> => {
   }
 };
 
+const getMyPointHistory = async (): Promise<IAppResposeBase<IUserPoint[]>> => {
+  try {
+    const response: IAppResposeBase<IUserPoint[]> = await http.get('/v1/users/my-point-history');
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+const getUserPointHistory = async (userId: string): Promise<IAppResposeBase<IUserPoint[]>> => {
+  try {
+    const response: IAppResposeBase<IUserPoint[]> = await http.get(
+      `/v1/users/point-history/${userId}`,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
 const userService = {
   getUsers,
   getUser,
@@ -81,5 +100,7 @@ const userService = {
   getDeletedUsers,
   restoreUser,
   deleteUser,
+  getMyPointHistory,
+  getUserPointHistory,
 };
 export default userService;

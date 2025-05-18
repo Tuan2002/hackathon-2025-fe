@@ -39,6 +39,7 @@ const UploadDocument = () => {
     categoryId: '',
     shortDescription: '',
     description: '',
+    point: 0,
     fileKey: '',
     fileName: '',
     fileType: FILE_TYPES.PDF,
@@ -61,6 +62,7 @@ const UploadDocument = () => {
             categoryId: response.data.categoryId,
             shortDescription: response.data.shortDescription,
             description: response.data.description,
+            point: response.data.point,
             fileKey: response.data.fileKey,
             fileName: response.data.fileName,
             fileType: response.data.fileType,
@@ -82,6 +84,7 @@ const UploadDocument = () => {
         publisherId: '',
         categoryId: '',
         shortDescription: '',
+        point: 0,
         description: '',
         fileKey: '',
         fileName: '',
@@ -207,8 +210,8 @@ const UploadDocument = () => {
               placeholder='Nhập số điểm của tài liệu'
               type='number'
               min={0}
-              value={documentData.name}
-              onChange={(e) => setDocumentData((prev) => ({ ...prev, name: e.target.value }))}
+              value={documentData.point}
+              onChange={(e) => setDocumentData((prev) => ({ ...prev, point: +e.target.value }))}
             />
           </div>
         </div>

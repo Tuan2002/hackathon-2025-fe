@@ -9,11 +9,13 @@ import type { IDocument } from '@/types/documentType';
 import DocumentService from '@/services/documentService';
 import getAccessToken from '@/utils/getAccessToken';
 import { toast } from 'react-toastify';
+import useConfigStore from '@/stores/configStore';
 
 const HomeHotDocument = () => {
   const [hotDocuments, setHotDocuments] = useState<IDocument[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const accessToken = getAccessToken();
+  const { activeConfig } = useConfigStore();
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -30,7 +32,7 @@ const HomeHotDocument = () => {
               const bCount = b.downloadCount + b.favoriteCount;
               return bCount - aCount;
             })
-            .slice(0, 8);
+            .slice(0, activeConfig?.config.maxHomePagePost || 8);
           setHotDocuments(sortedDocuments);
         } else {
           setHotDocuments([]);
@@ -42,7 +44,7 @@ const HomeHotDocument = () => {
       }
     };
     fetchDocuments();
-  }, [setHotDocuments, accessToken]);
+  }, [setHotDocuments, accessToken, activeConfig?.config.maxHomePagePost]);
 
   return (
     <ContainerBox>
@@ -51,7 +53,7 @@ const HomeHotDocument = () => {
         <div>
           {isLoading ? (
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
-              {Array.from({ length: 8 }).map((_, index) => (
+              {Array.from({ length: activeConfig?.config.maxHomePagePost ?? 8 }).map((_, index) => (
                 <div key={index} className='w-full'>
                   <DocumentItemSkeleton />
                 </div>

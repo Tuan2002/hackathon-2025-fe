@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Download, Eye } from 'lucide-react';
 import type { IDocument } from '@/types/documentType';
 import RoutePaths from '@/routes/routePaths';
+import { BsCoin } from 'react-icons/bs';
+import generatePriceStatus from '@/utils/generatePriceStatus';
 
 interface DocumentItemProps {
   document: IDocument;
@@ -10,9 +12,15 @@ interface DocumentItemProps {
 
 const DocumentItem = ({ document }: DocumentItemProps) => {
   return (
-    <Card className='overflow-hidden shadow-md transition hover:shadow-lg bg-white dark:bg-gray-800'>
+    <Card className='overflow-hidden relative shadow-md transition hover:shadow-lg bg-white dark:bg-gray-800'>
       <img src={document.image} alt={document.name} className='w-full h-44 object-cover' />
 
+      <div className='absolute top-2 right-2 bg-purple-600 text-white text-xs font-semibold px-2 py-1 rounded-full flex items-center min-w-20'>
+        <span className='flex-1 inline-block text-center'>
+          {generatePriceStatus(document.point).label}
+        </span>
+        <BsCoin className='inline-block ml-2' size={14} />
+      </div>
       <div className='p-2 space-y-2'>
         <h3 className='text-sm font-semibold text-gray-800 dark:text-gray-100 line-clamp-2 h-10 text-justify'>
           {document.name}

@@ -42,6 +42,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import EnumerationModal from './EnumerationModal';
+import generatePriceStatus from '@/utils/generatePriceStatus';
 
 const ManageDocument = () => {
   const [search, setSearch] = useState('');
@@ -310,14 +311,27 @@ const ManageDocument = () => {
       {
         id: 'status',
         title: 'Trạng thái',
-        render: (document: IDocument) => (
-          <span
-            className='p-2 rounded-full text-xs font-medium text-slate-700'
-            style={{ backgroundColor: DOCUMENT_STATUS_COLORS[document.status] || '#e0e7ff' }}
-          >
-            {DOCUMENT_STATUS_LABELS[document.status] || 'Chưa xác định'}
-          </span>
-        ),
+        render: (document: IDocument) => {
+          const price = generatePriceStatus(document.point);
+
+          return (
+            <div className='flex items-center justify-center gap-2 flex-col'>
+              <span
+                className='p-2 rounded-full text-xs font-medium text-slate-700'
+                style={{ backgroundColor: DOCUMENT_STATUS_COLORS[document.status] || '#e0e7ff' }}
+              >
+                {DOCUMENT_STATUS_LABELS[document.status] || 'Chưa xác định'}
+              </span>
+
+              <span
+                className='p-2 rounded-full text-xs font-medium text-slate-700 min-w-20 text-center'
+                style={{ backgroundColor: price.color || '#e0e7ff' }}
+              >
+                {price.label}
+              </span>
+            </div>
+          );
+        },
       },
       {
         id: 'actions',

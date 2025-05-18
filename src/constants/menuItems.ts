@@ -31,6 +31,7 @@ export const USER_MENU_ITEMS: MenuItem[] = [
     id: '2',
     title: 'Lịch sử giao dịch',
     icon: BiTransfer,
+    path: RoutePaths.AccountHistoryTransaction,
   },
   {
     id: '3',

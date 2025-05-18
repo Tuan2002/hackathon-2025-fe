@@ -12,6 +12,8 @@ const hiddenMainFooterRoutes = [
   RoutePaths.MyDownloadDocuments,
   RoutePaths.UploadDocument,
   RoutePaths.MyPendingDocuments,
+  RoutePaths.MySavedDocuments,
+  RoutePaths.AccountHistoryTransaction,
 ];
 
 const MainLayout = () => {
@@ -20,6 +22,9 @@ const MainLayout = () => {
       window.location.pathname as (typeof hiddenMainFooterRoutes)[number],
     );
   }, []);
+  console.log(window.location.pathname);
+  console.log(isHiddenMainFooter);
+  console.log(hiddenMainFooterRoutes);
   return (
     <div className='flex flex-col h-screen'>
       <MainHeader />

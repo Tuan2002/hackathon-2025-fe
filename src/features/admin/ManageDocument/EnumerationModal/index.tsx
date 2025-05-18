@@ -39,21 +39,28 @@ const EnumerationModal = ({ open, onClose }: EnumerationModalProps) => {
     >
       <div className='min-h-[500px]'>
         <Tabs defaultValue='likes' value={tab} onValueChange={setTab}>
-          <TabsList className='flex w-full bg-gray-100 dark:bg-gray-800 rounded-lg p-1 mb-4'>
+          <TabsList className='flex w-full bg-gray-100 dark:bg-gray-800 rounded-lg p-1 mb-4 gap-3'>
             {tabItems.map((item) => (
               <TabsTrigger
                 key={item.value}
                 value={item.value}
-                className='flex-1 
-        data-[state=active]:bg-white 
-        data-[state=active]:text-black 
-        data-[state=active]:shadow-sm 
-        dark:data-[state=active]:bg-gray-900 
-        dark:data-[state=active]:text-white 
-        rounded-md px-3 py-2 text-sm font-medium 
-        text-gray-600 hover:bg-white hover:text-black 
-        dark:text-gray-300 dark:hover:bg-gray-900 dark:hover:text-white 
-        transition'
+                className='flex-1
+        border 
+        border-gray-300 
+        rounded-md 
+        px-4 py-2 
+        text-sm font-medium 
+        text-gray-600 
+        dark:text-gray-300 
+        bg-gray-50 
+        dark:bg-gray-700
+        hover:bg-gray-200 
+        dark:hover:bg-gray-600 
+        transition-all
+        data-[state=active]:bg-blue-600 
+        data-[state=active]:text-white 
+        data-[state=active]:border-blue-600 
+        data-[state=active]:shadow'
               >
                 {item.label}
               </TabsTrigger>

@@ -26,6 +26,7 @@ export interface IDocument {
   authorName: string;
   categorySlug: string;
   publisherName: string;
+  point: number;
   createdAt: string;
   updatedAt: string;
   isFavorite: boolean;
@@ -46,6 +47,7 @@ export interface ICreateDocumentRequest {
   authorId: string;
   publisherId: string;
   categoryId: string;
+  point: number;
   shortDescription: string;
   description: string;
   fileKey: string;
@@ -60,6 +62,7 @@ export interface IUpdateDocumentRequest {
   publisherId: string;
   categoryId: string;
   shortDescription: string;
+  point: number;
   description: string;
   fileKey: string;
   fileName: string;
@@ -73,6 +76,7 @@ export interface IDocumentFormData {
   publisherId: string;
   categoryId: string;
   shortDescription: string;
+  point: number;
   description: string;
   fileKey: string;
   fileName: string;

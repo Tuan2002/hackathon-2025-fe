@@ -44,14 +44,6 @@ const InfomationBox = ({
     setOpenModalShowSummaryDocument(true);
   };
 
-  const handleDownload = () => {
-    if (!currentUser?.id) {
-      toast.error('Vui lòng đăng nhập để tải tài liệu');
-      return;
-    }
-    onDownload?.();
-  };
-
   return (
     <div className='flex gap-6'>
       {/* Ảnh */}
@@ -112,7 +104,7 @@ const InfomationBox = ({
 
           {/* Nút tải về */}
           <ButtonCustom
-            onClick={handleDownload}
+            onClick={onDownload}
             isLoading={isDownloading}
             variant='default'
             className='flex items-center gap-2'

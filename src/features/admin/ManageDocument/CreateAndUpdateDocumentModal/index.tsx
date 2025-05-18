@@ -49,6 +49,7 @@ const CreateAndUpdateDocumentModal = ({
     publisherId: '',
     categoryId: '',
     shortDescription: '',
+    point: 0,
     description: '',
     fileKey: '',
     fileName: '',
@@ -67,6 +68,7 @@ const CreateAndUpdateDocumentModal = ({
           authorId: currentDocument.authorId,
           publisherId: currentDocument.publisherId,
           categoryId: currentDocument.categoryId,
+          point: currentDocument.point,
           shortDescription: currentDocument.shortDescription,
           description: currentDocument.description,
           fileKey: currentDocument.fileKey,
@@ -82,6 +84,7 @@ const CreateAndUpdateDocumentModal = ({
           authorId: '',
           publisherId: '',
           categoryId: '',
+          point: 0,
           shortDescription: '',
           description: '',
           fileKey: '',
@@ -210,13 +213,25 @@ const CreateAndUpdateDocumentModal = ({
         </div>
 
         {/* Document Name */}
-        <div>
-          <Label>Tên tài liệu</Label>
-          <Input
-            placeholder='Nhập tên tài liệu'
-            value={documentData.name}
-            onChange={(e) => setDocumentData((prev) => ({ ...prev, name: e.target.value }))}
-          />
+        <div className='flex justify-between items-center gap-3'>
+          <div className='w-2/3'>
+            <Label>Tên tài liệu</Label>
+            <Input
+              placeholder='Nhập tên tài liệu'
+              value={documentData.name}
+              onChange={(e) => setDocumentData((prev) => ({ ...prev, name: e.target.value }))}
+            />
+          </div>
+          <div className='w-1/3'>
+            <Label>Số điểm</Label>
+            <Input
+              placeholder='Nhập số điểm của tài liệu'
+              type='number'
+              min={0}
+              value={documentData.point}
+              onChange={(e) => setDocumentData((prev) => ({ ...prev, point: +e.target.value }))}
+            />
+          </div>
         </div>
 
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>

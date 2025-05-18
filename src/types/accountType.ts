@@ -18,6 +18,7 @@ export interface IUser {
   dob: string;
   gender: EGender;
   avatar: string;
+  point: number;
   createdAt: string;
   updatedAt: string;
 }
