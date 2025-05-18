@@ -98,9 +98,9 @@ export const ADMIN_MENU_ITEMS: MenuItem[] = [
   },
   {
     id: '8',
-    title: 'Quản lý phản hồi',
+    title: 'Lịch sử giao dịch',
     icon: BiSolidUser,
-    path: RoutePaths.ManageFeedback,
+    path: RoutePaths.ManageHistoryTransaction,
   },
 ];
 

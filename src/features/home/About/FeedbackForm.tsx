@@ -9,7 +9,7 @@ import FeedbackService from '@/services/feedbackService';
 import type { IFeedbackFormData } from '@/types/feedbackType';
 import { Star } from 'lucide-react';
 import { useState } from 'react';
-import { toast } from 'sonner';
+import { toast } from 'react-toastify';
 
 const FeedbackForm = () => {
   const [formData, setFormData] = useState<IFeedbackFormData>({

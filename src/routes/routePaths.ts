@@ -35,6 +35,7 @@ const RoutePaths = {
   ManageFeedback: '/admin/manage-feedback',
   ManageContact: '/admin/manage-contact',
   ManageMenu: '/admin/manage-menu',
+  ManageHistoryTransaction: '/admin/manage-history-transaction',
 
   // User Routes
   MyDocuments: '/my-documents',

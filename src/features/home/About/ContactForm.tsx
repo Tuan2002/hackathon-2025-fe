@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { toast } from 'sonner';
 import FeedbackService from '@/services/feedbackService';
 import type { IContactFormData } from '@/types/feedbackType';
+import { toast } from 'react-toastify';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState<IContactFormData>({

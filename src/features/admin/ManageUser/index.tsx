@@ -20,6 +20,7 @@ import useUserStore from '@/stores/userStore';
 import userService from '@/services/userService';
 import { toast } from 'react-toastify';
 import ShowPointHistoryModal from './ShowPointHistoryModal';
+import ShowTransactionHistoryModal from './ShowTransactionHistoryModal';
 
 const UserManagement = () => {
   const [search, setSearch] = useState('');
@@ -38,6 +39,8 @@ const UserManagement = () => {
     updateUser,
     openModalShowPointHistory,
     setOpenModalShowPointHistory,
+    openModalShowTransactionHistory,
+    setOpenModalShowTransactionHistory,
   } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -70,6 +73,15 @@ const UserManagement = () => {
   };
   const handleCloseModalShowPointHistory = () => {
     setOpenModalShowPointHistory(false);
+    setCurrentUser(null);
+  };
+
+  const handleOpenModalShowTransactionHistory = (user: IUser) => {
+    setCurrentUser(user);
+    setOpenModalShowTransactionHistory(true);
+  };
+  const handleCloseModalShowTransactionHistory = () => {
+    setOpenModalShowTransactionHistory(false);
     setCurrentUser(null);
   };
 
@@ -240,6 +252,13 @@ const UserManagement = () => {
                 className='flex items-center gap-2'
               >
                 <Eye className='w-4 h-4 text-blue-500' />
+                <span>Thống kê lịch sử điểm</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handleOpenModalShowTransactionHistory(item)}
+                className='flex items-center gap-2'
+              >
+                <Eye className='w-4 h-4 text-blue-500' />
                 <span>Thống kê lịch sử giao dịch</span>
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -324,6 +343,12 @@ const UserManagement = () => {
       <ShowPointHistoryModal
         open={openModalShowPointHistory}
         onClose={handleCloseModalShowPointHistory}
+        isLoading={isLoading}
+        currentUser={currentUser as IUser} // Ensure currentUser is of type IUser
+      />
+      <ShowTransactionHistoryModal
+        open={openModalShowTransactionHistory}
+        onClose={handleCloseModalShowTransactionHistory}
         isLoading={isLoading}
         currentUser={currentUser as IUser} // Ensure currentUser is of type IUser
       />

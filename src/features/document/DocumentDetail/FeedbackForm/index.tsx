@@ -9,7 +9,7 @@ import FeedbackService from '@/services/feedbackService';
 import type { IFeedbackFormData } from '@/types/feedbackType';
 import { Star } from 'lucide-react';
 import { useState } from 'react';
-import { toast } from 'sonner';
+import { toast } from 'react-toastify';
 
 const FeedbackForm = () => {
   const [formData, setFormData] = useState<IFeedbackFormData>({
@@ -38,8 +38,8 @@ const FeedbackForm = () => {
 
     try {
       const response = await FeedbackService.createFeedback(formData);
-      toast.success('Gửi đánh giá thành công!');
       if (response.statusCode === 200 || response.statusCode === 201) {
+        toast.success('Gửi đánh giá thành công!');
         setFormData({
           star: 0,
           content: '',

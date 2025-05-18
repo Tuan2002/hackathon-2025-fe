@@ -51,6 +51,19 @@ export interface IUserPoint {
   avatar: string;
 }
 
+export interface IHistoryTransaction {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  transactionHash: string;
+  amount: number;
+  status: string;
+  failedReason: string;
+  paymentUserId: string;
+  userName: string;
+  avatar: string;
+}
+
 export interface ICheckoutPaymentRequest {
   amount: number;
 }

@@ -6,6 +6,7 @@ import type {
   ICheckoutPaymentResponse,
   IConfirmPaymentRequest,
   ICreateUserRequest,
+  IHistoryTransaction,
   IUpdateUserRequest,
   IUserPoint,
 } from '@/types/userType';
@@ -127,6 +128,30 @@ const confirmPayment = async (
   }
 };
 
+const getHistoryTransaction = async (): Promise<IAppResposeBase<IUserPoint[]>> => {
+  try {
+    const response: IAppResposeBase<IUserPoint[]> = await http.get(
+      '/v1/users/get-history-transaction',
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const getUserTransaction = async (
+  userId: string,
+): Promise<IAppResposeBase<IHistoryTransaction[]>> => {
+  try {
+    const response: IAppResposeBase<IHistoryTransaction[]> = await http.get(
+      `/v1/users/transactions/${userId}`,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
 const userService = {
   getUsers,
   getUser,
@@ -139,5 +164,7 @@ const userService = {
   getUserPointHistory,
   checkoutPayment,
   confirmPayment,
+  getHistoryTransaction,
+  getUserTransaction,
 };
 export default userService;

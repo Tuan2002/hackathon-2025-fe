@@ -1,16 +1,19 @@
 import type { IUser } from '@/types/accountType';
-import type { IUserPoint } from '@/types/userType';
+import type { IHistoryTransaction, IUserPoint } from '@/types/userType';
 import { create } from 'zustand';
 
 type UserState = {
   // state
   listUsers: IUser[];
   listPointHistory: IUserPoint[];
+
+  listTransactionHistory: IHistoryTransaction[];
   openModalCreateAndUpdateUser: boolean;
   currentUser: IUser | null;
   openModalDeleteUser: boolean;
   openModalLockUser: boolean;
   openModalShowPointHistory: boolean;
+  openModalShowTransactionHistory: boolean;
 
   // actions
   setListUsers: (listUsers: IUser[]) => void;
@@ -23,6 +26,8 @@ type UserState = {
   setOpenModalLockUser: (openModalLockUser: boolean) => void;
   setListPointHistory: (listPointHistory: IUserPoint[]) => void;
   setOpenModalShowPointHistory: (openModalShowPointHistory: boolean) => void;
+  setOpenModalShowTransactionHistory: (openModalShowTransactionHistory: boolean) => void;
+  setListTransactionHistory: (listTransactionHistory: IHistoryTransaction[]) => void;
 };
 
 const useUserStore = create<UserState>((set) => ({
@@ -34,6 +39,8 @@ const useUserStore = create<UserState>((set) => ({
   openModalLockUser: false,
   listPointHistory: [],
   openModalShowPointHistory: false,
+  openModalShowTransactionHistory: false,
+  listTransactionHistory: [],
 
   // actions
   setListUsers: (listUsers: IUser[]) => set(() => ({ listUsers })),
@@ -62,6 +69,10 @@ const useUserStore = create<UserState>((set) => ({
   setListPointHistory: (listPointHistory: IUserPoint[]) => set(() => ({ listPointHistory })),
   setOpenModalShowPointHistory: (openModalShowPointHistory: boolean) =>
     set(() => ({ openModalShowPointHistory })),
+  setOpenModalShowTransactionHistory: (openModalShowTransactionHistory: boolean) =>
+    set(() => ({ openModalShowTransactionHistory })),
+  setListTransactionHistory: (listTransactionHistory: IHistoryTransaction[]) =>
+    set(() => ({ listTransactionHistory })),
 }));
 
 export default useUserStore;
