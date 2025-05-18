@@ -7,6 +7,7 @@ import FavoriteEnumerationTab from './FavoriteEnumeration';
 import DownloadEnumerationTab from './DownloadEnumeration';
 import useDocumentStore from '@/stores/documentStore';
 import CommentEnumerationTab from './CommentEnumeration';
+import FeedbackEnumerationTab from './FeedbackEnumeration';
 
 interface Comment {
   id: string;
@@ -23,12 +24,12 @@ const tabItems = [
   { value: 'likes', label: 'Người dùng đã thích' },
   { value: 'downloads', label: 'Người dùng đã tải xuống' },
   { value: 'comments', label: 'Tổng hợp bình luận' },
+  { value: 'feedback', label: 'Tổng hợp đánh giá' },
 ];
 
 const EnumerationModal = ({ open, onClose }: EnumerationModalProps) => {
   const { currentDocument } = useDocumentStore();
   const [tab, setTab] = useState('likes');
-  const comments: Comment[] = [{ id: '1', user: 'Nguyễn Văn A', content: 'Tài liệu rất hữu ích!' }];
   return (
     <ModalCustom
       title='Chi tiết tài liệu'
@@ -78,6 +79,10 @@ const EnumerationModal = ({ open, onClose }: EnumerationModalProps) => {
 
           <TabsContent value='comments'>
             <CommentEnumerationTab documentId={currentDocument?.id} />
+          </TabsContent>
+
+          <TabsContent value='feedback'>
+            <FeedbackEnumerationTab documentId={currentDocument?.id} />
           </TabsContent>
         </Tabs>
       </div>

@@ -38,8 +38,8 @@ const FeedbackForm = () => {
 
     try {
       const response = await FeedbackService.createFeedback(formData);
+      toast.success('Gửi đánh giá thành công!');
       if (response.statusCode === 200 || response.statusCode === 201) {
-        toast.success('Gửi đánh giá thành công!');
         setFormData({
           star: 0,
           content: '',
