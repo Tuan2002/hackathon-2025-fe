@@ -11,7 +11,7 @@ import type { IDocument } from '@/types/documentType';
 import getAccessToken from '@/utils/getAccessToken';
 import { FileX } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const DocumentCategory = () => {
@@ -20,6 +20,9 @@ const DocumentCategory = () => {
   const { listDocuments, setListDocuments } = useDocumentStore();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const accessToken = getAccessToken();
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const searchValue = query.get('search');
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,6 +50,16 @@ const DocumentCategory = () => {
           const documents = response.data?.filter(
             (item: IDocument) => item.categorySlug === categorySlug,
           );
+          if (searchValue) {
+            const filteredDocuments = response.data?.filter((item: IDocument) =>
+              item.name.toLowerCase().includes(searchValue.toLowerCase()),
+            );
+            console.log('Filtered documents:', filteredDocuments);
+            console.log('Documents:', documents);
+            console.log('Search value:', searchValue);
+            setListDocuments(filteredDocuments);
+            return;
+          }
           setListDocuments(categorySlug && currentCategory?.id ? documents : response.data);
         } else {
           setListDocuments([]);
@@ -58,7 +71,7 @@ const DocumentCategory = () => {
       }
     };
     fetchDocuments();
-  }, [categorySlug, currentCategory?.id, setListDocuments, accessToken]);
+  }, [categorySlug, currentCategory?.id, setListDocuments, accessToken, searchValue]);
 
   // Tính documents theo trang
   const paginatedDocuments = listDocuments.slice(

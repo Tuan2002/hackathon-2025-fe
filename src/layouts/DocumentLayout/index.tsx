@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import useCategoryStore from '@/stores/categoryStore';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RoutePaths from '@/routes/routePaths';
 
 interface DocumentLayoutProps {
@@ -14,6 +14,22 @@ interface DocumentLayoutProps {
 
 const DocumentLayout = ({ children }: DocumentLayoutProps) => {
   const { listCategories } = useCategoryStore();
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = React.useState<string>('');
+  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value);
+  };
+  const handleSearch = () => {
+    if (searchText.trim() === '') {
+      return;
+    }
+    navigate(`${RoutePaths.Document}?search=${searchText}`);
+  };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
   return (
     <ContainerBox>
       <div className='grid grid-cols-1 md:grid-cols-4 gap-6'>
@@ -25,6 +41,9 @@ const DocumentLayout = ({ children }: DocumentLayoutProps) => {
             </h5>
             <div className='flex items-center gap-2 relative'>
               <Input
+                onKeyDown={handleKeyDown}
+                value={searchText}
+                onChange={handleChangeSearch}
                 type='text'
                 placeholder='Tìm tài liệu...'
                 className='bg-gray-100 dark:bg-gray-700 border-none focus:ring-0 text-sm'
@@ -35,7 +54,7 @@ const DocumentLayout = ({ children }: DocumentLayoutProps) => {
             </div>
 
             {/* Nút tìm kiếm */}
-            <Button className='w-full' variant='default'>
+            <Button onClick={handleSearch} className='w-full' variant='default'>
               Tìm kiếm
             </Button>
           </Card>

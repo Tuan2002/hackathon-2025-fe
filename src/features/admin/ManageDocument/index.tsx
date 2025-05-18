@@ -33,7 +33,7 @@ import {
   DOCUMENT_STATUSES,
   DOCUMENT_STATUS_OPTIONS,
 } from '@/constants/documentStatuses';
-import RejectDocumentModal from './RejectDocumentModal';
+// import RejectDocumentModal from './RejectDocumentModal';
 import {
   Select,
   SelectContent,
@@ -41,6 +41,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import EnumerationModal from './EnumerationModal';
 
 const ManageDocument = () => {
   const [search, setSearch] = useState('');
@@ -58,11 +59,13 @@ const ManageDocument = () => {
     deleteDocument,
     setOpenModalDeleteDocument,
     setOpenModalCreateAndUpdateDocument,
-    openModalRejectDocument,
+    // openModalRejectDocument,
     setOpenModalRejectDocument,
-    openModalApproveDocument,
+    // openModalApproveDocument,
     updateDocument,
     setOpenModalApproveDocument,
+    setOpenModalShowEnumerationDocument,
+    openModalShowEnumerationDocument,
   } = useDocumentStore();
 
   const { setListAuthors } = useAuthorStore();
@@ -101,23 +104,33 @@ const ManageDocument = () => {
     setCurrentDocument(null);
   };
 
-  const handleOpenModalApproveDocument = (document: IDocument) => {
-    setCurrentDocument(document);
-    setOpenModalApproveDocument(true);
-  };
+  // const handleOpenModalApproveDocument = (document: IDocument) => {
+  //   setCurrentDocument(document);
+  //   setOpenModalApproveDocument(true);
+  // };
 
   const handleCloseModalApproveDocument = () => {
     setOpenModalApproveDocument(false);
     setCurrentDocument(null);
   };
 
-  const handleOpenModalRejectDocument = (document: IDocument) => {
-    setCurrentDocument(document);
-    setOpenModalRejectDocument(true);
-  };
+  // const handleOpenModalRejectDocument = (document: IDocument) => {
+  //   setCurrentDocument(document);
+  //   setOpenModalRejectDocument(true);
+  // };
 
   const handleCloseModalRejectDocument = () => {
     setOpenModalRejectDocument(false);
+    setCurrentDocument(null);
+  };
+
+  const handleOpenModalShowEnumeration = (document: IDocument) => {
+    setCurrentDocument(document);
+    setOpenModalShowEnumerationDocument(true);
+  };
+
+  const handleCloseModalShowEnumeration = () => {
+    setOpenModalShowEnumerationDocument(false);
     setCurrentDocument(null);
   };
 
@@ -138,11 +151,11 @@ const ManageDocument = () => {
     }
   };
 
-  const handleConfirmApproveDocument = async () => {
+  const handleConfirmApproveDocument = async (point: number) => {
     if (!currentDocument) return;
     setIsLoading(true);
     try {
-      const response = await DocumentService.approveDocument(currentDocument?.id as string);
+      const response = await DocumentService.approveDocument(currentDocument?.id as string, point);
       if (response && response.statusCode === 200) {
         updateDocument({
           ...currentDocument,
@@ -324,27 +337,18 @@ const ManageDocument = () => {
                 <Eye className='w-4 h-4 text-blue-500' /> Xem chi tiết
               </DropdownMenuItem>
               <DropdownMenuItem
+                onClick={() => handleOpenModalShowEnumeration(document)}
+                className='flex items-center gap-2'
+              >
+                <Eye className='w-4 h-4 text-blue-500' /> Xem thống kê
+              </DropdownMenuItem>
+              <DropdownMenuItem
                 onClick={() => handleOpenModalCreateAndUpdateDocument(document)}
                 className='flex items-center gap-2'
               >
                 <Edit className='w-4 h-4 text-green-500' /> Chỉnh sửa
               </DropdownMenuItem>
-              {document.status === DOCUMENT_STATUSES.PENDING && (
-                <>
-                  <DropdownMenuItem
-                    onClick={() => handleOpenModalApproveDocument(document)}
-                    className='flex items-center gap-2'
-                  >
-                    <Edit className='w-4 h-4 text-green-500' /> Duyệt tài liệu
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handleOpenModalRejectDocument(document)}
-                    className='flex items-center gap-2'
-                  >
-                    <Edit className='w-4 h-4 text-green-500' /> Từ chối tài liệu
-                  </DropdownMenuItem>
-                </>
-              )}
+
               <DropdownMenuItem
                 onClick={() => handleOpenModalDeleteDocument(document)}
                 className='flex items-center gap-2'
@@ -415,6 +419,8 @@ const ManageDocument = () => {
         open={openModalShowDocumentDetail}
         onClose={handleCloseModalShowDocumentDetail}
         document={currentDocument}
+        onApprove={handleConfirmApproveDocument}
+        onReject={handleConfirmRejectDocument}
       />
       <ModalConfirm
         title='Xoá tài liệu'
@@ -425,7 +431,11 @@ const ManageDocument = () => {
         onClose={handleCloseModalDeleteDocument}
         isConfirming={isLoading}
       />
-      <ModalConfirm
+      <EnumerationModal
+        open={openModalShowEnumerationDocument}
+        onClose={handleCloseModalShowEnumeration}
+      />
+      {/* <ModalConfirm
         title='Duyệt tài liệu'
         description='Bạn có chắc chắn muốn duyệt cho tài liệu này không?'
         onConfirm={handleConfirmApproveDocument}
@@ -438,7 +448,7 @@ const ManageDocument = () => {
         open={openModalRejectDocument}
         onClose={handleCloseModalRejectDocument}
         onReject={handleConfirmRejectDocument}
-      />
+      /> */}
     </CardScroll>
   );
 };

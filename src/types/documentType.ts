@@ -110,3 +110,11 @@ export interface IComment {
   commenterName: string;
   commenterImage: string;
 }
+
+export interface IDocumentUser {
+  userId: string;
+  documentId: string;
+  userName: string;
+  userEmail: string;
+  avatar: string;
+}

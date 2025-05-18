@@ -4,6 +4,7 @@ import type {
   IComment,
   ICreateDocumentRequest,
   IDocument,
+  IDocumentUser,
   IGenerateSummaryResponse,
   IGetDownloadDocumentUrlResponse,
   ISendCommentRequest,
@@ -123,10 +124,13 @@ const deleteDocument = async (id: string): Promise<IAppResposeBase<IDocument>> =
   }
 };
 
-const approveDocument = async (id: string): Promise<IAppResposeBase<IDocument>> => {
+const approveDocument = async (id: string, point: number): Promise<IAppResposeBase<IDocument>> => {
   try {
     const response: IAppResposeBase<IDocument> = await http.patch(
       `/v1/documents/approve-document/${id}`,
+      {
+        point,
+      },
     );
     return response;
   } catch (error: any) {
@@ -346,6 +350,28 @@ const replyComment = async (
   }
 };
 
+const getDownloadUsers = async (documentId: string): Promise<IAppResposeBase<IDocumentUser[]>> => {
+  try {
+    const response: IAppResposeBase<IDocumentUser[]> = await http.get(
+      `/v1/documents/get-download-users/${documentId}`,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
+const getFavoriteUsers = async (documentId: string): Promise<IAppResposeBase<IDocumentUser[]>> => {
+  try {
+    const response: IAppResposeBase<IDocumentUser[]> = await http.get(
+      `/v1/documents/get-favorite-users/${documentId}`,
+    );
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+
 const DocumentService = {
   uploadFile,
   getMyDocuments,
@@ -375,5 +401,7 @@ const DocumentService = {
   updateComment,
   deleteComment,
   replyComment,
+  getDownloadUsers,
+  getFavoriteUsers,
 };
 export default DocumentService;
